@@ -56,6 +56,7 @@ import company.CompanyInsert;
 import company.CompanyList;
 
 import file.FileInsert;
+import file.Filedownload;
 import folder.FolderInsert;
 import folder.FolderUpdate;
 
@@ -71,13 +72,6 @@ public class MainPage extends JFrame {
 	private boolean DEBUG = true;
 	private JMenu falseUser, company, UserList;
 	private DefaultMutableTreeNode home;
-
-	private String host = "192.168.1.6";
-	private String fileid = "user1";
-	private String password = "1234";
-	private int port = 21;
-	private String dir = "test/";
-
 	int parentNum = 0;
 	int homeNum = 0;
 	int companyNum = 0;
@@ -648,23 +642,21 @@ public class MainPage extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				DefaultMutableTreeNode selectNode = getSelectedNode();
-				
-				ItemDto selectItem = (ItemDto) selectNode.getUserObject();
-				
-				if(selectItem instanceof FileDto)
-				{
-					FileDto fileInfo = (FileDto) selectItem;
-					FTPUtil ftp = new FTPUtil();
-					ftp.init(host, fileid, password, port);
-					int last =  fileInfo.getFileURL().lastIndexOf("\\");		
-					String filePath = fileInfo.getFileURL().substring(last+1, fileInfo.getFileURL().length());
-					ftp.download(dir, filePath, "D:\\"+filePath);
-					ftp.disconnection();
+				if (selectNode != null) {
+					Filedownload FileDownload = new Filedownload(selectNode);
+					Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+					FileDownload.setLocation((dim.width / 2)
+							- (FileDownload.getWidth() / 2), (dim.height / 2)
+							- (FileDownload.getHeight() / 2));
+					FileDownload.setVisible(true);
+
+					if (FileDownload.isVisible() == false) {
+
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "폴더를 선택해주세요.");
 				}
-				else
-				{
-					//오류알림
-				}
+
 			}
 		});
 		popup.show(tree, x, y);

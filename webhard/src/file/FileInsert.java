@@ -148,7 +148,7 @@ public class FileInsert extends JDialog {
 				cancelBtn = new JButton("취소");
 				cancelBtn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						Object obj = e.getSource();
+						
 						if ((JOptionPane
 								.showConfirmDialog(cancelBtn, "취소하시겠습니까??",
 										"종료확인", JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION) {
