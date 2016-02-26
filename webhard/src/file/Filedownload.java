@@ -44,16 +44,16 @@ public class Filedownload extends JDialog {
 			JPanel panel = new JPanel();
 			getContentPane().add(panel, BorderLayout.SOUTH);
 			panel.setPreferredSize(new Dimension(50,50));
-			panel.setLayout(new BorderLayout(0, 0));
+			panel.setLayout(null);
 			
-			JPanel panel_1 = new JPanel();
-			panel.add(panel_1, BorderLayout.EAST);
-	
-		}
-		{
-			JPanel panel = new JPanel();
-			getContentPane().add(panel, BorderLayout.NORTH);
-			panel.setPreferredSize(new Dimension(50,50));
+			JButton btnNewButton_1 = new JButton("New button");
+			btnNewButton_1.setBounds(470, 17, 97, 23);
+			panel.add(btnNewButton_1);
+			
+			JButton btnNewButton_2 = new JButton("New button");
+			btnNewButton_2.setBounds(333, 17, 97, 23);
+			panel.add(btnNewButton_2);
+		;
 			panel.setLayout(new BorderLayout(0, 0));
 			{
 				JPanel panel_1 = new JPanel();
