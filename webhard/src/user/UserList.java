@@ -171,7 +171,7 @@ public class UserList extends JDialog {
 						(dim.height / 2) - (ma.getHeight() / 2));
 				ma.setVisible(true);
 				}else{
-					JOptionPane.showMessageDialog(null,"회사를 선택해주세요.");
+					JOptionPane.showMessageDialog(null,"사용자를 선택해주세요.");
 				}
 			}
 		});
@@ -242,9 +242,5 @@ public class UserList extends JDialog {
 			 model.addRow(socrates);
 		}
 		table.setModel(model);	
-	}
-	public void userUpdate(UserDto dto){
-		table.setValueAt(dto, table.getSelectedRow(),table.getSelectedColumn()); 
-		table.updateUI();
 	}
 }

@@ -38,6 +38,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
 
 import login.login;
@@ -50,6 +51,7 @@ import webhard.dao.UserDao;
 import webhard.dto.FileDto;
 import webhard.dto.FolderDto;
 import webhard.dto.ItemDto;
+import webhard.dto.UserDto;
 import FTP.FTPUtil;
 
 import company.CompanyInsert;
@@ -75,7 +77,7 @@ public class MainPage extends JFrame {
 	int parentNum = 0;
 	int homeNum = 0;
 	int companyNum = 0;
-
+	private UserDto uDto;
 	private DefaultMutableTreeNode selectNode;
 
 	/**
@@ -99,6 +101,11 @@ public class MainPage extends JFrame {
 	 * @param access
 	 */
 	public MainPage(String name, final String id, int admin, int access) {
+		uDto = new UserDto();
+		uDto.setUserId(id);
+		uDto.setAdmin(admin);
+		uDto.setAccess(access);
+		uDto.setUserName(name);
 		setResizable(false);
 		setTitle("웹 하드");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -142,7 +149,7 @@ public class MainPage extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					if (parentNum != 0) {
 						FolderUpdate folderupdate = new FolderUpdate(parentNum,
-								MainPage.this);
+								MainPage.this,companyNum, id);
 						Dimension dim = Toolkit.getDefaultToolkit()
 								.getScreenSize();
 						folderupdate.setLocation((dim.width / 2)
@@ -165,8 +172,7 @@ public class MainPage extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					FolderDao dao = new FolderDao();
-					selectNode = (DefaultMutableTreeNode) tree
-							.getLastSelectedPathComponent();
+					
 					if (parentNum != 0) {
 						deleteFolder(parentNum);
 						tree.updateUI();
@@ -234,7 +240,7 @@ public class MainPage extends JFrame {
 				UserList.setHorizontalAlignment(SwingConstants.CENTER);
 				menuBar.add(UserList);
 
-				JMenuItem UserDelete = new JMenuItem("사용자 삭제");
+				JMenuItem UserDelete = new JMenuItem("사용자 메뉴");
 				UserDelete.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 
@@ -249,7 +255,7 @@ public class MainPage extends JFrame {
 				});
 				UserList.add(UserDelete);
 
-				JMenu company = new JMenu("회사 추가");
+				JMenu company = new JMenu("회사 메뉴");
 
 				company = new JMenu("회사 추가");
 				JMenuItem companyinsert = new JMenuItem("회사 등록");
@@ -411,7 +417,7 @@ public class MainPage extends JFrame {
 		if (access != 0) {
 			tree.addMouseListener(new MouseAdapter() {
 				@Override
-				public void mousePressed(MouseEvent e) {
+				public void mouseClicked(MouseEvent e) {
 
 					if (DEBUG && tree.getSelectionCount() > 0) {
 
@@ -528,6 +534,8 @@ public class MainPage extends JFrame {
 	}
 
 	public void deleteFolder(int itemNum) {
+		selectNode = (DefaultMutableTreeNode) tree
+				.getLastSelectedPathComponent();
 		ArrayList<Integer> childs = new ArrayList<Integer>();
 		FolderDao dao = new FolderDao();
 		childs = (ArrayList<Integer>) dao.itemNumByParentNum(itemNum);
@@ -542,8 +550,6 @@ public class MainPage extends JFrame {
 					if (((ArrayList<Integer>) dao.itemNumByParentNum(child))
 							.size() == 0) {
 						dao.deleteFolder(child);
-						selectNode.remove(child);
-
 					}
 				}
 			} else {
@@ -552,9 +558,10 @@ public class MainPage extends JFrame {
 		}
 		if (((ArrayList<Integer>) dao.itemNumByParentNum(parentNum)).size() == 0) {
 			dao.deleteFolder(parentNum);
-			selectNode.remove(parentNum);
+			
 		}
-
+		selectNode.removeAllChildren();
+		selectNode.removeFromParent();
 	}
 
 	private void createTable(List<FolderDto> folTable) {
@@ -670,7 +677,7 @@ public class MainPage extends JFrame {
 	private void modifySelectedNode() {
 		if (parentNum != 0) {
 			FolderUpdate folderupdate = new FolderUpdate(parentNum,
-					MainPage.this);
+					MainPage.this,companyNum,uDto.getUserId());
 			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 			folderupdate.setLocation((dim.width / 2)
 					- (folderupdate.getWidth() / 2), (dim.height / 2)
@@ -747,13 +754,11 @@ public class MainPage extends JFrame {
 	 */
 	public void addCompanyFolder(FolderDto newFolder) {
 
-		/*
-		 * FolderDto homefDto = new FolderDto(); FolderDao folDao = new
-		 * FolderDao(); homefDto = folDao.selectHomeFolder(); ItemDto homeFolder
-		 * = homefDto; DefaultMutableTreeNode home = new
-		 * DefaultMutableTreeNode(homeFolder); home.add((MutableTreeNode)
-		 * newFolder); tree.updateUI();
-		 */
+		  DefaultMutableTreeNode nFolder = new DefaultMutableTreeNode(newFolder);
+		  System.out.println(nFolder);
+		  home.add(nFolder);
+		  tree.updateUI();
+		 
 	}
 
 	public void addNewFolder(FolderDto newFolder) {
@@ -766,7 +771,7 @@ public class MainPage extends JFrame {
 	public void updateFolder(FolderDto newFolder) {
 		DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(newFolder);
 		System.out.println(childNode);
-		selectNode.setUserObject(newFolder);
+		selectNode.setUserObject(childNode.getUserObject());
 		tree.updateUI();
 	}
 

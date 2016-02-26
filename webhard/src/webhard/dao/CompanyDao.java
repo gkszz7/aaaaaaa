@@ -221,14 +221,24 @@ public class CompanyDao {
 		Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
+        String search=null;
         ArrayList<CompanyDto> companys = new ArrayList<CompanyDto>();
         
+        if(companyName.startsWith("*") && companyName.endsWith("*")){
+        	search = "%"+companyName+"%";        			
+        }else if(companyName.endsWith("*")){
+        	search = companyName+"%";
+        }else if(companyName.startsWith("*")){
+        	search = "%"+companyName;
+        }else if(companyName.contains("*") == false){
+        	search = companyName;
+        }
         try {
 			con=connection.conn();
 			String sql="select companyNum, companyName, companyAddr, companyPhone, company_Creation_Date"
 					+ " from company where companyName LIKE ?";
 			ps = con.prepareStatement(sql);
-			ps.setString(1, companyName+"%");
+			ps.setString(1, search);
 			rs=ps.executeQuery();
 			
 			while(rs.next()){

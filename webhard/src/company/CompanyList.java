@@ -129,7 +129,7 @@ public class CompanyList extends JDialog {
 					String companyAddr = dto.getCompanyAddr();
 					String companyPhone = dto.getCompanyPhone();
 					
-					CompanyUpdate update = new CompanyUpdate(compnum,companyname,companyAddr,companyPhone);
+					CompanyUpdate update = new CompanyUpdate(compnum,companyname,companyAddr,companyPhone, CompanyList.this);
 					CompanyDto dto2 = dao.getData(id);
 					Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 					update.setLocation((dim.width / 2) - (update.getWidth() / 2),

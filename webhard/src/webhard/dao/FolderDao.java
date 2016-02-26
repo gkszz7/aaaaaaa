@@ -59,7 +59,7 @@ public class FolderDao {
 		FolderDto folderDto = new FolderDto();
 		
 		folderDto.setName(name);
-		folderDto.setItemNum(itemNum);
+		
 		folderDto.setUserId(userId);
 		folderDto.setCompanyNum(companyNum);
 
@@ -81,6 +81,7 @@ public class FolderDao {
 			if(rs.next()){
 				num=rs.getInt(1);
 			}
+			folderDto.setItemNum(num);
 			rs.close();
 			ps.close();
 
@@ -112,11 +113,15 @@ public class FolderDao {
 	/**
 	 * 회사 가입 후 바로 생성 되는 회사 폴더
 	 */
-	public void addCompanyFolder(String name, int parentNum, String userId,
+	public FolderDto addCompanyFolder(String name, int parentNum, String userId,
 			int companyNum) {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
+		FolderDto dto = new FolderDto();
+		dto.setName(name);
+		dto.setUserId(userId);
+		dto.setCompanyNum(companyNum);
 		int num=0;
 
 		try {
@@ -137,6 +142,7 @@ public class FolderDao {
 			if(rs.next()){
 				num=rs.getInt(1);
 			}
+			dto.setItemNum(num);
 			rs.close();
 			ps.close();
 
@@ -160,6 +166,7 @@ public class FolderDao {
 				e.printStackTrace();
 			}
 		}
+		return dto;
 	}
 	/**
 	 * 메인 화면의 폴더 트리 출력 시
@@ -214,7 +221,7 @@ public class FolderDao {
         try {
 			con = connection.conn();
 			String sql="select f.foldertype, f.step, i.itemNum, i.name, i.ITEM_CREATION_DATE, i.parentNum, i.userid, i.companyNum "
-					+ "from folder f, item i where i.itemNum = f.itemNum and i.itemNum = 118";
+					+ "from folder f, item i where i.itemNum = f.itemNum and i.itemNum = 1";
 			ps = con.prepareStatement(sql);
 			rs=ps.executeQuery();
 			
@@ -288,12 +295,15 @@ public class FolderDao {
 	/**
 	 * 폴더 이름 수정
 	 */
-	public FolderDto updateFolder(String name, int itemNum) {
+	public FolderDto updateFolder(String name, int itemNum,int companyNum, String userId) {
 		Connection con = null;
         PreparedStatement ps = null;
         FolderDto dto = new FolderDto();
         
         dto.setName(name);
+        dto.setItemNum(itemNum);
+        dto.setCompanyNum(companyNum);
+        dto.setUserId(userId);
         try {
 			con = connection.conn();
 			String sql="update item set name = ?, item_creation_date = current_date where itemNum = ?";
@@ -302,6 +312,11 @@ public class FolderDao {
 			ps.setInt(2, itemNum);
 			
 			ps.executeUpdate();
+			
+			dto.setName(name);
+	        dto.setItemNum(itemNum);
+	        dto.setCompanyNum(companyNum);
+	        dto.setUserId(userId);
 
 			
 		} catch (Exception e) {
