@@ -94,7 +94,7 @@ public class Filedownload extends JDialog {
 							
 							String filePath = fileInfo.getFileURL().substring(last+1, fileInfo.getFileURL().length());
 							
-							ftp.download(dir, Path, Path);
+							ftp.download(dir, fileInfo.getFileURL(), Path);
 							ftp.disconnection();
 						}
 						else
