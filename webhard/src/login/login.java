@@ -11,6 +11,7 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -21,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.tree.DefaultTreeCellRenderer;
@@ -145,10 +147,7 @@ public class login extends JDialog {
 		JButton loginBtn = new JButton("·Î±×ÀÎ");
 
 		loginBtn.setEnabled(true);
-		
-		
-		
-		
+		KeyStroke enter = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false);
 		
 		loginBtn.addActionListener(new ActionListener() {
 
