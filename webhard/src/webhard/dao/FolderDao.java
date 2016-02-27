@@ -12,38 +12,7 @@ import webhard.dto.ItemDto;
 
 public class FolderDao {
 	
-//	public static void main(String[] args){
-//		
-//		int itemNum=2;
-//			
-//		ArrayList<Integer> start = new ArrayList<Integer>();
-//		ArrayList<Integer> last = new ArrayList<Integer>();
-//		start = (ArrayList<Integer>) itemNumByParentNum(itemNum);
-//		
-//		if(start.size() == 0){
-//			deleteFolder(itemNum);
-//		}else{
-//			while(true){
-//
-//				for(int j=0;j<start.size();j++){
-//					itemNum=start.get(j);
-//					last = (ArrayList<Integer>)itemNumByParentNum(itemNum);
-//					if(last.size() == 0){
-//						deleteFolder(itemNum);//itemNum 폴더 삭제
-//						itemNum=2;
-//						start=(ArrayList<Integer>) itemNumByParentNum(itemNum);
-//						if(start.size()==0){
-//							deleteFolder(itemNum);
-//							break;
-//						}
-//					}
-//				}
-//				if(last.size() != 0){
-//					start=last;
-//				}
-//			}
-//		}		
-//	}
+
 
 
 	/**
