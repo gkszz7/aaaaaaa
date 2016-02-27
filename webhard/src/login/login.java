@@ -12,15 +12,18 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.AbstractAction;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.tree.DefaultTreeCellRenderer;
@@ -28,6 +31,8 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import main.MainPage;
 import user.UserInsert;
 import webhard.dao.UserDao;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class login extends JDialog {
 
@@ -37,7 +42,7 @@ public class login extends JDialog {
 	private ImageIcon im;
 	private JTextField idtext;
 	private JPasswordField pwField;
-	private JButton insertBtn;
+	private JButton insertBtn, loginBtn;
 
 	public static void main(String[] args) {
 		try {
@@ -75,11 +80,12 @@ public class login extends JDialog {
 		panel_1.setBackground(Color.WHITE);
 		panel.add(panel_1, BorderLayout.EAST);
 		panel_1.setPreferredSize(new Dimension(200, 200));
-		
+
 		DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
 		Icon img = new ImageIcon("img1.png");
 		Image icon = ((ImageIcon) img).getImage(); // ImageIcon을 Image로 변환.
-		Image icon1 = icon.getScaledInstance(170, 90,java.awt.Image.SCALE_SMOOTH);
+		Image icon1 = icon.getScaledInstance(170, 90,
+				java.awt.Image.SCALE_SMOOTH);
 		ImageIcon icon2 = new ImageIcon(icon1); // Image로 ImageIcon 생성
 
 		JLabel lblNewLabel_1 = new JLabel(icon2);
@@ -142,14 +148,10 @@ public class login extends JDialog {
 		panel_3.add(panel_5, BorderLayout.EAST);
 		panel_5.setPreferredSize(new Dimension(195, 10));
 
-		JButton loginBtn = new JButton("로그인");
-
+		loginBtn = new JButton("로그인");
+		
 		loginBtn.setEnabled(true);
-		
-		
-		
-		
-		
+
 		loginBtn.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -264,6 +266,15 @@ public class login extends JDialog {
 		panel_4.add(password, gbc_password);
 
 		pwField = new JPasswordField();
+		pwField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				int key = e.getKeyCode();
+				if (key == KeyEvent.VK_ENTER) {
+					loginBtn.doClick();
+				}
+			}
+		});
 		GridBagConstraints gbc_pwField = new GridBagConstraints();
 		gbc_pwField.anchor = GridBagConstraints.SOUTH;
 		gbc_pwField.gridwidth = 3;
