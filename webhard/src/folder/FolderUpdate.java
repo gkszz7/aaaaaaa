@@ -44,7 +44,7 @@ public class FolderUpdate extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public FolderUpdate(final int itemNum,final MainPage mainPage) {
+	public FolderUpdate(final int itemNum,final MainPage mainPage, final int companyNum, final String userId) {
 		setResizable(false);
 		setTitle("폴더 등록");
 		setBounds(100, 100, 332, 232);
@@ -65,7 +65,8 @@ public class FolderUpdate extends JDialog {
 						FolderDao dao = new FolderDao();
 						if(folderName.getText().length()>0){
 							String name = folderName.getText();
-							dto = dao.updateFolder(name, itemNum);
+							dto = dao.updateFolder(name, itemNum,companyNum, userId);
+							
 							
 							JOptionPane.showMessageDialog(null,"폴더가 수정되었습니다.");
 							setVisible(false);//make directory

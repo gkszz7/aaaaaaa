@@ -91,13 +91,19 @@ public class Filedownload extends JDialog {
 							String fileName = Path.substring(last1+1,Path.length());
 							
 							int last =  fileInfo.getFileURL().lastIndexOf("\\");	
-																			
-							ftp.download(dir, fileInfo.getFileURL(), Path);
+							
+							String downloadName = fileInfo.getFileURL().substring(last+1,fileInfo.getFileURL().length());
+							
+							System.out.println(downloadName);
+							
+							ftp.download(dir, downloadName, Path+"."+fileInfo.getFileType());
 							ftp.disconnection();
+							JOptionPane.showMessageDialog(null, "파일이 다운되었습니다.");
+							setVisible(false);
 						}
 						else
 						{
-							//오류알림
+							JOptionPane.showMessageDialog(null, "잘못 된 경로입니다.");
 						}
 					}
 				});

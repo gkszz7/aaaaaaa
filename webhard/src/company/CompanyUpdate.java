@@ -34,27 +34,27 @@ public class CompanyUpdate extends JDialog {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-
-		int compnum=0;
-		String Name=null;
-		String addr=null;
-		String phone=null;
-
-		try {
-			CompanyUpdate dialog = new CompanyUpdate(compnum,Name,addr,phone);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	public static void main(String[] args) {
+//
+//		int compnum=0;
+//		String Name=null;
+//		String addr=null;
+//		String phone=null;
+//
+//		try {
+//			CompanyUpdate dialog = new CompanyUpdate(compnum,Name,addr,phone);
+//			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+//			dialog.setVisible(true);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	
 	/**
 	 * Create the dialog.
 	 */
-	public CompanyUpdate(final int compnum ,String Name, String addr, String phone) {
+	public CompanyUpdate(final int compnum ,String Name, String addr, String phone, final CompanyList comList) {
 		setResizable(false);
 		setBounds(100, 100, 430, 277);
 		getContentPane().setLayout(new BorderLayout());
@@ -127,12 +127,13 @@ public class CompanyUpdate extends JDialog {
 					String CoName = CompName.getText();
 					String coAddr = compAddr.getText();
 					String Phone = compPhone.getText();
+					List<CompanyDto> companys = new ArrayList<CompanyDto>();
+					
 					
 					Dao.updateCompany(compnum, CoName, coAddr, Phone);
-					
+					companys = Dao.selectCompany();
 					JOptionPane.showMessageDialog(null,"수정되었습니다.");
-									
-					CompanyList list = new CompanyList();
+					comList.listBySearch(companys);
 					dispose();
 					
 				}

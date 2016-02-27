@@ -145,6 +145,11 @@ public class login extends JDialog {
 		JButton loginBtn = new JButton("·Î±×ÀÎ");
 
 		loginBtn.setEnabled(true);
+		
+		
+		
+		
+		
 		loginBtn.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {

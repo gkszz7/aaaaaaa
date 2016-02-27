@@ -73,6 +73,8 @@ public class UserUpdate extends JDialog {
 					UserDao dao = new UserDao();
 					UserDto dto = new UserDto();
 					CompanyDao compDao = new CompanyDao();
+					List<UserDto> users = new ArrayList<UserDto>();
+					
 					
 					String userid = UserId.getText();
 					String uname = userName.getText();
@@ -82,8 +84,8 @@ public class UserUpdate extends JDialog {
 					int compNum = compDao.selectCompanyNum(com);
 					
 					dto = dao.updateUser(userid, uname, addr, phone, com);
-					
-					userlist.userUpdate(dto);
+					users = dao.selectAllUser();
+					userlist.listBySearch(users);
 					dispose();
 					}
 				
