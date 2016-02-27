@@ -134,7 +134,7 @@ public class FileInsert extends JDialog {
 						
 						ftp.upload(dir, outpath);
 						ftp.disconnection();
-						//mainpage.addNewFile(dto);
+						mainpage.addNewFile(dto);
 						
 						JOptionPane.showMessageDialog(null, "파일이 등록되었습니다.");
 						setVisible(false);

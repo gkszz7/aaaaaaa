@@ -595,13 +595,13 @@ public class MainPage extends JFrame {
 			model.addColumn(columnNames[i]);
 		}
 		for (int i = 0; i < folTable.size(); i++) {
-			Object[] info = { folTable.get(i).getName(),folTable.get(i).getDate(), folTable.get(i).getUserId(),new ImageIcon("Folder-48.png")};
+			Object[] info = { folTable.get(i).getName(),folTable.get(i).getDate(), folTable.get(i).getUserId()};
 			model.addRow(info);
 		}
 		
 		if(fileList != null){
 			for (FileDto file : fileList) {
-				Object[] files = { file.getName(),file.getDate(), file.getUserId(), new ImageIcon("Folder-48.png")};
+				Object[] files = { file.getName(),file.getDate(), file.getUserId(), file.getFileURL(), file.getFileType()};
 				model.addRow(files);
 			}
 		}
