@@ -642,6 +642,7 @@ public class MainPage extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				DefaultMutableTreeNode selectNode = getSelectedNode();
+				
 				if (selectNode != null) {
 					Filedownload FileDownload = new Filedownload(selectNode);
 					Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
