@@ -223,15 +223,16 @@ public class CompanyDao {
         ResultSet rs = null;
         String search=null;
         ArrayList<CompanyDto> companys = new ArrayList<CompanyDto>();
-        
-        if(companyName.startsWith("*") && companyName.endsWith("*")){
-        	search = "%"+companyName+"%";        			
-        }else if(companyName.endsWith("*")){
-        	search = companyName+"%";
+        int index = companyName.indexOf("*");
+        String name =null;
+        if(companyName.endsWith("*")){
+        	name = companyName.substring(0, index);
+        	search = name+"%";
         }else if(companyName.startsWith("*")){
-        	search = "%"+companyName;
+        	name = companyName.substring(index+1);
+        	search = "%"+name;
         }else if(companyName.contains("*") == false){
-        	search = companyName;
+        	search = "%"+companyName+"%";
         }
         try {
 			con=connection.conn();
@@ -272,13 +273,24 @@ public class CompanyDao {
         PreparedStatement ps = null;
         ResultSet rs = null;
         ArrayList<CompanyDto> companys = new ArrayList<CompanyDto>();
-        
+        int index = companyAddr.indexOf("*");
+        String search=null;
+        String name =null;
+        if(companyAddr.endsWith("*")){
+        	name = companyAddr.substring(0, index);
+        	search = name+"%";
+        }else if(companyAddr.startsWith("*")){
+        	name = companyAddr.substring(index+1);
+        	search = "%"+name;
+        }else if(companyAddr.contains("*") == false){
+        	search = "%"+companyAddr+"%";
+        }
         try {
 			con=connection.conn();
 			String sql="select companyNum, companyName, companyAddr, companyPhone, company_Creation_Date"
 					+ " from company where companyAddr LIKE ?";
 			ps = con.prepareStatement(sql);
-			ps.setString(1, companyAddr+"%");
+			ps.setString(1, search);
 			rs=ps.executeQuery();
 			
 			while(rs.next()){
@@ -312,13 +324,24 @@ public class CompanyDao {
         PreparedStatement ps = null;
         ResultSet rs = null;
         ArrayList<CompanyDto> companys = new ArrayList<CompanyDto>();
-        
+        int index = companyPhone.indexOf("*");
+        String search=null;
+        String name =null;
+        if(companyPhone.endsWith("*")){
+        	name = companyPhone.substring(0, index);
+        	search = name+"%";
+        }else if(companyPhone.startsWith("*")){
+        	name = companyPhone.substring(index+1);
+        	search = "%"+name;
+        }else if(companyPhone.contains("*") == false){
+        	search = "%"+companyPhone+"%";
+        }
         try {
 			con=connection.conn();
 			String sql="select companyNum, companyName, companyAddr, companyPhone, company_Creation_Date"
 					+ " from company where companyPhone LIKE ?";
 			ps = con.prepareStatement(sql);
-			ps.setString(1, companyPhone+"%");
+			ps.setString(1, search);
 			rs=ps.executeQuery();
 			
 			while(rs.next()){

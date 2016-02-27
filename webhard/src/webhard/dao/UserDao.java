@@ -241,19 +241,30 @@ public class UserDao {
 	/**
 	 * 회원목록에서 유저 이름으로 검색
 	 */
-	public List<UserDto> searchUserByUserName(String search){
+	public List<UserDto> searchUserByUserName(String searchname){
 		Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         ArrayList<UserDto> users = new ArrayList<UserDto>();
-        
+        int index = searchname.indexOf("*");
+        String search=null;
+        String name =null;
+        if(searchname.endsWith("*")){
+        	name = searchname.substring(0, index);
+        	search = name+"%";
+        }else if(searchname.startsWith("*")){
+        	name = searchname.substring(index+1);
+        	search = "%"+name;
+        }else if(searchname.contains("*") == false){
+        	search = "%"+searchname+"%";
+        }
         try {
 			con=connection.conn();
 			String sql="select u.userid, u.username, u.userphone, u.useraddr,c.companyName "
 					+ "from users u,(select companyNum, companyName from company) c "
 					+ "where c.companyNum=u.companyNum and u.admin=0 and u.username LIKE ? ";
 			ps = con.prepareStatement(sql);
-			ps.setString(1, search+"%");
+			ps.setString(1, search);
 			rs=ps.executeQuery();
 			
 			while(rs.next()){
@@ -282,19 +293,30 @@ public class UserDao {
 	/**
 	 * 회원목록에서 유저 아이디로 검색
 	 */
-	public List<UserDto> searchUserByUserId(String search){
+	public List<UserDto> searchUserByUserId(String searchId){
 		Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         ArrayList<UserDto> users = new ArrayList<UserDto>();
-        
+        int index = searchId.indexOf("*");
+        String search=null;
+        String name =null;
+        if(searchId.endsWith("*")){
+        	name = searchId.substring(0, index);
+        	search = name+"%";
+        }else if(searchId.startsWith("*")){
+        	name = searchId.substring(index+1);
+        	search = "%"+name;
+        }else if(searchId.contains("*") == false){
+        	search = "%"+searchId+"%";
+        }
         try {
 			con=connection.conn();
 			String sql="select u.userid, u.username, u.userphone, u.useraddr,c.companyName "
 					+ "from users u,(select companyNum, companyName from company) c "
 					+ "where c.companyNum=u.companyNum and u.admin=0 and u.userid LIKE ? ";
 			ps = con.prepareStatement(sql);
-			ps.setString(1, search+"%");
+			ps.setString(1, search);
 			rs=ps.executeQuery();
 			
 			while(rs.next()){
@@ -324,19 +346,30 @@ public class UserDao {
 	/**
 	 * 회원목록에서 유저 전화번호로 검색
 	 */
-	public List<UserDto> searchUserByUserPhone(String search){
+	public List<UserDto> searchUserByUserPhone(String searchphone){
 		Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         ArrayList<UserDto> users = new ArrayList<UserDto>();
-        
+        int index = searchphone.indexOf("*");
+        String search=null;
+        String name =null;
+        if(searchphone.endsWith("*")){
+        	name = searchphone.substring(0, index);
+        	search = name+"%";
+        }else if(searchphone.startsWith("*")){
+        	name = searchphone.substring(index+1);
+        	search = "%"+name;
+        }else if(searchphone.contains("*") == false){
+        	search = "%"+searchphone+"%";
+        }
         try {
 			con=connection.conn();
 			String sql="select u.userid, u.username, u.userphone, u.useraddr,c.companyName "
 					+ "from users u,(select companyNum, companyName from company) c "
 					+ "where c.companyNum=u.companyNum and u.admin=0 and u.userphone LIKE ? ";
 			ps = con.prepareStatement(sql);
-			ps.setString(1, search+"%");
+			ps.setString(1, search);
 			rs=ps.executeQuery();
 			
 			while(rs.next()){
@@ -365,19 +398,30 @@ public class UserDao {
 	/**
 	 * 회원목록에서 유저 회사 이름으로 검색
 	 */
-	public List<UserDto> searchUserByCompany(String search){
+	public List<UserDto> searchUserByCompany(String searchcom){
 		Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         ArrayList<UserDto> users = new ArrayList<UserDto>();
-        
+        int index = searchcom.indexOf("*");
+        String search=null;
+        String name =null;
+        if(searchcom.endsWith("*")){
+        	name = searchcom.substring(0, index);
+        	search = name+"%";
+        }else if(searchcom.startsWith("*")){
+        	name = searchcom.substring(index+1);
+        	search = "%"+name;
+        }else if(searchcom.contains("*") == false){
+        	search = "%"+searchcom+"%";
+        }
         try {
 			con=connection.conn();
 			String sql="select u.userid, u.username, u.userphone, u.useraddr,c.companyName "
 					+ "from users u,(select companyNum, companyName from company) c "
 					+ "where c.companyNum=u.companyNum and u.admin=0 and c.companyName LIKE ? ";
 			ps = con.prepareStatement(sql);
-			ps.setString(1, search+"%");
+			ps.setString(1, search);
 			rs=ps.executeQuery();
 			
 			while(rs.next()){
@@ -406,19 +450,30 @@ public class UserDao {
 	/**
 	 * 인증 대기자목록에서 유저 이름으로 검색
 	 */
-	public List<UserDto> searchAccessByUserName(String search){
+	public List<UserDto> searchAccessByUserName(String searchname){
 		Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         ArrayList<UserDto> users = new ArrayList<UserDto>();
-        
+        int index = searchname.indexOf("*");
+        String search=null;
+        String name =null;
+        if(searchname.endsWith("*")){
+        	name = searchname.substring(0, index);
+        	search = name+"%";
+        }else if(searchname.startsWith("*")){
+        	name = searchname.substring(index+1);
+        	search = "%"+name;
+        }else if(searchname.contains("*") == false){
+        	search = "%"+searchname+"%";
+        }
         try {
 			con=connection.conn();
 			String sql="select u.userid, u.username, u.userphone, u.useraddr,c.companyName "
 					+ "from users u,(select companyNum, companyName from company) c "
 					+ "where c.companyNum=u.companyNum and u.access=0 and u.username LIKE ? ";
 			ps = con.prepareStatement(sql);
-			ps.setString(1, search+"%");
+			ps.setString(1, search);
 			rs=ps.executeQuery();
 			
 			while(rs.next()){
@@ -447,19 +502,30 @@ public class UserDao {
 	/**
 	 * 인증 대기자목록에서 유저 아이디로 검색
 	 */
-	public List<UserDto> searchAccessByUserId(String search){
+	public List<UserDto> searchAccessByUserId(String searchid){
 		Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         ArrayList<UserDto> users = new ArrayList<UserDto>();
-        
+        int index = searchid.indexOf("*");
+        String search=null;
+        String name =null;
+        if(searchid.endsWith("*")){
+        	name = searchid.substring(0, index);
+        	search = name+"%";
+        }else if(searchid.startsWith("*")){
+        	name = searchid.substring(index+1);
+        	search = "%"+name;
+        }else if(searchid.contains("*") == false){
+        	search = "%"+searchid+"%";
+        }
         try {
 			con=connection.conn();
 			String sql="select u.userid, u.username, u.userphone, u.useraddr,c.companyName "
 					+ "from users u,(select companyNum, companyName from company) c "
 					+ "where c.companyNum=u.companyNum and u.access=0 and u.userid LIKE ? ";
 			ps = con.prepareStatement(sql);
-			ps.setString(1, search+"%");
+			ps.setString(1, search);
 			rs=ps.executeQuery();
 			
 			while(rs.next()){
@@ -488,19 +554,30 @@ public class UserDao {
 	/**
 	 * 인증 대기자목록에서 회사 이름으로 검색
 	 */
-	public List<UserDto> searchAccessByCompany(String search){
+	public List<UserDto> searchAccessByCompany(String searchcom){
 		Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         ArrayList<UserDto> users = new ArrayList<UserDto>();
-        
+        int index = searchcom.indexOf("*");
+        String search=null;
+        String name =null;
+        if(searchcom.endsWith("*")){
+        	name = searchcom.substring(0, index);
+        	search = name+"%";
+        }else if(searchcom.startsWith("*")){
+        	name = searchcom.substring(index+1);
+        	search = "%"+name;
+        }else if(searchcom.contains("*") == false){
+        	search = "%"+searchcom+"%";
+        }
         try {
 			con=connection.conn();
 			String sql="select u.userid, u.username, u.userphone, u.useraddr,c.companyName "
 					+ "from users u,(select companyNum, companyName from company) c "
 					+ "where c.companyNum=u.companyNum and u.access=0 and c.companyName LIKE ? ";
 			ps = con.prepareStatement(sql);
-			ps.setString(1, search+"%");
+			ps.setString(1, search);
 			rs=ps.executeQuery();
 			
 			while(rs.next()){
@@ -529,19 +606,30 @@ public class UserDao {
 	/**
 	 * 인증 대기자목록에서 유저 전화번호로 검색
 	 */
-	public List<UserDto> searchAccessByPhone(String search){
+	public List<UserDto> searchAccessByPhone(String searchphone){
 		Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         ArrayList<UserDto> users = new ArrayList<UserDto>();
-        
+        int index = searchphone.indexOf("*");
+        String search=null;
+        String name =null;
+        if(searchphone.endsWith("*")){
+        	name = searchphone.substring(0, index);
+        	search = name+"%";
+        }else if(searchphone.startsWith("*")){
+        	name = searchphone.substring(index+1);
+        	search = "%"+name;
+        }else if(searchphone.contains("*") == false){
+        	search = "%"+searchphone+"%";
+        }
         try {
 			con=connection.conn();
 			String sql="select u.userid, u.username, u.userphone, u.useraddr,c.companyName "
 					+ "from users u,(select companyNum, companyName from company) c "
 					+ "where c.companyNum=u.companyNum and u.access=0 and u.userphone LIKE ? ";
 			ps = con.prepareStatement(sql);
-			ps.setString(1, search+"%");
+			ps.setString(1, search);
 			rs=ps.executeQuery();
 			
 			while(rs.next()){
