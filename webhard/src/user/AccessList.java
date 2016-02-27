@@ -28,11 +28,14 @@ import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 
 public class AccessList extends JDialog {
 	private JTextField textField;
 	private JTable table;
+	private JButton btnNewButton;
 
 	/**
 	 * Launch the application.
@@ -90,11 +93,22 @@ public class AccessList extends JDialog {
 		panel_2.add(comboBox);
 		
 		textField = new JTextField();
+		textField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				int key = e.getKeyCode();
+				if (key == KeyEvent.VK_ENTER) {
+					btnNewButton.doClick();
+				}
+				
+			}
+		});
 		textField.setBounds(358, 34, 199, 21);
 		panel_2.add(textField);
 		textField.setColumns(10);
 		
-		JButton btnNewButton = new JButton("검색");
+		btnNewButton = new JButton("검색");
 		btnNewButton.addActionListener(new ActionListener() {
 			
 			List<UserDto> searchUser = new ArrayList<UserDto>();

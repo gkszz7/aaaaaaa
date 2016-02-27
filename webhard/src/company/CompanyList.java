@@ -30,6 +30,8 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 
 import webhard.dao.CompanyDao;
 import webhard.dto.CompanyDto;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class CompanyList extends JDialog {
 	private JTable table;
@@ -184,6 +186,16 @@ public class CompanyList extends JDialog {
 		panel_4.add(search);
 		
 		textField = new JTextField();
+		textField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				int key = e.getKeyCode();
+				if (key == KeyEvent.VK_ENTER) {
+					searchBtn.doClick();
+				}
+			}
+		});
 		textField.setBounds(336, 43, 149, 21);
 		panel_4.add(textField);
 		textField.setColumns(10);

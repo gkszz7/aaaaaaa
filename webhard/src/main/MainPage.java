@@ -149,7 +149,7 @@ public class MainPage extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					if (parentNum != 0) {
 						FolderUpdate folderupdate = new FolderUpdate(parentNum,
-								MainPage.this,companyNum, id);
+								MainPage.this, companyNum, id);
 						Dimension dim = Toolkit.getDefaultToolkit()
 								.getScreenSize();
 						folderupdate.setLocation((dim.width / 2)
@@ -172,7 +172,7 @@ public class MainPage extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					FolderDao dao = new FolderDao();
-					
+
 					if (parentNum != 0) {
 						deleteFolder(parentNum);
 						tree.updateUI();
@@ -208,10 +208,22 @@ public class MainPage extends JFrame {
 			});
 			file.add(flieinsert);
 
-			JMenuItem fileupdate = new JMenuItem("파일 수정");
-			file.add(fileupdate);
-
 			JMenuItem filedelete = new JMenuItem("파일 삭제");
+
+			filedelete.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+
+					if (parentNum != 0) {
+						deleteFolder(parentNum);
+						tree.updateUI();
+					} else {
+						JOptionPane.showMessageDialog(null, "파일을 선택해주세요.");
+					}
+
+				}
+			});
 			file.add(filedelete);
 			// 사용자
 
@@ -271,7 +283,8 @@ public class MainPage extends JFrame {
 				});
 
 				company.add(companyinsert);
-				JMenuItem companyList = new JMenuItem("\uD68C\uC0AC \uBAA9\uB85D");
+				JMenuItem companyList = new JMenuItem(
+						"\uD68C\uC0AC \uBAA9\uB85D");
 				companyList.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						CompanyList ci = new CompanyList();
@@ -354,7 +367,9 @@ public class MainPage extends JFrame {
 					List<FolderDto> folders = new ArrayList<FolderDto>();
 
 					if (e.getClickCount() == 2) {
-						int tableItemNum = Integer.parseInt((String) (table.getModel().getValueAt(table.getSelectedRow(),0)));
+						int tableItemNum = Integer.parseInt((String) (table
+								.getModel().getValueAt(table.getSelectedRow(),
+								0)));
 						folders = folderDao
 								.printFolderInParentFolder(tableItemNum);
 						listBySearch(folders, null);
@@ -426,8 +441,10 @@ public class MainPage extends JFrame {
 						int compnum = dao.selectcompany(id);
 
 						DefaultMutableTreeNode selectedNode = getSelectedNode();
-						String compname = selectedNode.getUserObject().toString();
-						ItemDto selectObtion = (ItemDto) selectedNode.getUserObject();
+						String compname = selectedNode.getUserObject()
+								.toString();
+						ItemDto selectObtion = (ItemDto) selectedNode
+								.getUserObject();
 						int parentNum1 = selectObtion.getCompanyNum();
 						// int Home = selectObtion.getItemNum();
 						parentNum = selectObtion.getItemNum();
@@ -435,7 +452,9 @@ public class MainPage extends JFrame {
 
 						int selectpnum = cdao.selectCompanyNum(compname);
 						if (selectedNode != null) {
-							if (compnum == selectpnum || id.equals("admin")|| compnum == parentNum1|| parentNum == homeNum) {
+							if (compnum == selectpnum || id.equals("admin")
+									|| compnum == parentNum1
+									|| parentNum == homeNum) {
 								Object pobj = null;
 								DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode) selectedNode
 										.getParent();
@@ -447,12 +466,11 @@ public class MainPage extends JFrame {
 
 								folders = folderDao
 										.printFolderInParentFolder(parentNum);
-								
-								fileList = fileDao.printFileInParentFolder(parentNum);
-								
+
+								fileList = fileDao
+										.printFileInParentFolder(parentNum);
+
 								listBySearch(folders, fileList);
-								
-								
 
 								// //////////////////////////////////
 								if (parentNode != null)
@@ -558,7 +576,7 @@ public class MainPage extends JFrame {
 		}
 		if (((ArrayList<Integer>) dao.itemNumByParentNum(parentNum)).size() == 0) {
 			dao.deleteFolder(parentNum);
-			
+
 		}
 		selectNode.removeAllChildren();
 		selectNode.removeFromParent();
@@ -595,32 +613,34 @@ public class MainPage extends JFrame {
 			model.addColumn(columnNames[i]);
 		}
 		for (int i = 0; i < folTable.size(); i++) {
-			Object[] info = { folTable.get(i).getName(),folTable.get(i).getDate(), folTable.get(i).getUserId()};
+			Object[] info = { folTable.get(i).getName(),
+					folTable.get(i).getDate(), folTable.get(i).getUserId() };
 			model.addRow(info);
 		}
-		
-		if(fileList != null){
+
+		if (fileList != null) {
 			for (FileDto file : fileList) {
-				Object[] files = { file.getName(),file.getDate(), file.getUserId(), file.getFileURL(), file.getFileType()};
+				Object[] files = { file.getName(), file.getDate(),
+						file.getUserId(), file.getFileURL(), file.getFileType() };
 				model.addRow(files);
 			}
 		}
 
 		table.setModel(model);
-		//table.removeColumn(table.getColumnModel().getColumn(0));
+		// table.removeColumn(table.getColumnModel().getColumn(0));
 		table.updateUI();
 	}
 
 	protected void showMenu(int x, int y, final String id) {
 		JPopupMenu popup = new JPopupMenu();
-		JMenuItem mi = new JMenuItem("추가");
+		JMenuItem mi = new JMenuItem("폴더 추가");
 		popup.add(mi);
 		mi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				addNewNodeItem(id);
 			}
 		});
-		mi = new JMenuItem("수정");
+		mi = new JMenuItem("폴더 수정");
 		TreePath path = tree.getSelectionPath();
 		Object node = path.getLastPathComponent();
 		if (node == tree.getModel().getRoot()) {
@@ -632,7 +652,7 @@ public class MainPage extends JFrame {
 				modifySelectedNode();
 			}
 		});
-		mi = new JMenuItem("삭제");
+		mi = new JMenuItem("폴더 삭제");
 		if (node == tree.getModel().getRoot()) {
 			mi.setEnabled(false);
 		}
@@ -649,13 +669,13 @@ public class MainPage extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				DefaultMutableTreeNode selectNode = getSelectedNode();
-				
+
 				if (selectNode != null) {
 					Filedownload FileDownload = new Filedownload(selectNode);
 					Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-					FileDownload.setLocation((dim.width / 2)
-							- (FileDownload.getWidth() / 2), (dim.height / 2)
-							- (FileDownload.getHeight() / 2));
+					FileDownload.setLocation(
+							(dim.width / 2) - (FileDownload.getWidth() / 2),
+							(dim.height / 2) - (FileDownload.getHeight() / 2));
 					FileDownload.setVisible(true);
 
 					if (FileDownload.isVisible() == false) {
@@ -678,7 +698,7 @@ public class MainPage extends JFrame {
 	private void modifySelectedNode() {
 		if (parentNum != 0) {
 			FolderUpdate folderupdate = new FolderUpdate(parentNum,
-					MainPage.this,companyNum,uDto.getUserId());
+					MainPage.this, companyNum, uDto.getUserId());
 			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 			folderupdate.setLocation((dim.width / 2)
 					- (folderupdate.getWidth() / 2), (dim.height / 2)
@@ -755,11 +775,11 @@ public class MainPage extends JFrame {
 	 */
 	public void addCompanyFolder(FolderDto newFolder) {
 
-		  DefaultMutableTreeNode nFolder = new DefaultMutableTreeNode(newFolder);
-		  System.out.println(nFolder);
-		  home.add(nFolder);
-		  tree.updateUI();
-		 
+		DefaultMutableTreeNode nFolder = new DefaultMutableTreeNode(newFolder);
+		System.out.println(nFolder);
+		home.add(nFolder);
+		tree.updateUI();
+
 	}
 
 	public void addNewFolder(FolderDto newFolder) {
@@ -770,9 +790,7 @@ public class MainPage extends JFrame {
 
 	// 폴더를 수정
 	public void updateFolder(FolderDto newFolder) {
-		DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(newFolder);
-		System.out.println(childNode);
-		selectNode.setUserObject(childNode.getUserObject());
+		getSelectedNode().setUserObject(newFolder);
 		tree.updateUI();
 	}
 
@@ -782,40 +800,35 @@ public class MainPage extends JFrame {
 		selectNode.add(childNode);
 		tree.updateUI();
 	}
-	
-	public class CustomTreeCellRenderer extends DefaultTreeCellRenderer
-	{
+
+	public class CustomTreeCellRenderer extends DefaultTreeCellRenderer {
 		Icon folderIcon = new ImageIcon("Folder.png");
 		Icon closedIcon = new ImageIcon("Folder.png");
 		Icon openIcon = new ImageIcon("Open Folder.png");
 		Icon fileIcon = new ImageIcon("Files.png");
-		
+
 		public CustomTreeCellRenderer() {
 			// TODO Auto-generated constructor stub
 		}
-		
-		@Override
-		public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf, int row,
-				boolean hasFocus) {
-			
-			super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf,
-	                row, hasFocus);
 
-			ItemDto node = (ItemDto) ((DefaultMutableTreeNode)value).getUserObject();
-			
-			if(node instanceof FolderDto)
-			{
-				if(expanded)
-				{
+		@Override
+		public Component getTreeCellRendererComponent(JTree tree, Object value,
+				boolean sel, boolean expanded, boolean leaf, int row,
+				boolean hasFocus) {
+
+			super.getTreeCellRendererComponent(tree, value, sel, expanded,
+					leaf, row, hasFocus);
+
+			ItemDto node = (ItemDto) ((DefaultMutableTreeNode) value)
+					.getUserObject();
+
+			if (node instanceof FolderDto) {
+				if (expanded) {
 					setIcon(openIcon);
-				}
-				else
-				{
+				} else {
 					setIcon(closedIcon);
 				}
-			}
-			else
-			{
+			} else {
 				setIcon(fileIcon);
 			}
 			return this;

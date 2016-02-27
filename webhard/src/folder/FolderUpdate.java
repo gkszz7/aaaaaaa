@@ -46,7 +46,7 @@ public class FolderUpdate extends JDialog {
 	 */
 	public FolderUpdate(final int itemNum,final MainPage mainPage, final int companyNum, final String userId) {
 		setResizable(false);
-		setTitle("폴더 등록");
+		setTitle("폴더 수정");
 		setBounds(100, 100, 332, 232);
 		getContentPane().setLayout(new BorderLayout());
 		{
