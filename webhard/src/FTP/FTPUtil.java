@@ -88,7 +88,7 @@ public class FTPUtil{
 
 		FileOutputStream out = null;
 		InputStream in = null;
-		client.setControlEncoding("UTF-8");
+		
 		dir += downloadFileName;
 		try {
 			in = client.retrieveFileStream(dir);
