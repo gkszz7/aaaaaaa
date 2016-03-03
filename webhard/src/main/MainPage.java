@@ -72,6 +72,7 @@ import javax.swing.border.SoftBevelBorder;
 public class MainPage extends JFrame {
 	
 	private AccessList Al;
+	private FolderInsert folderInsert;
 	private CompanyList CompList;
 	private UserList ul;
 	private CompanyInsert ci;
@@ -135,21 +136,21 @@ public class MainPage extends JFrame {
 			JMenuItem insert = new JMenuItem("폴더 생성");
 			insert.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if (parentNum != 0) {
-						selectNode = (DefaultMutableTreeNode) tree
-								.getLastSelectedPathComponent();
-						FolderInsert folderInsert = new FolderInsert(parentNum,
-								id, companyNum, MainPage.this);
-						Dimension dim = Toolkit.getDefaultToolkit()
-								.getScreenSize();
-						folderInsert.setLocation((dim.width / 2)
-								- (folderInsert.getWidth() / 2),
-								(dim.height / 2)
-										- (folderInsert.getHeight() / 2));
-						folderInsert.setVisible(true);
-					} else {
-						JOptionPane.showMessageDialog(null, "폴더를 선택해주세요.");
+					if(folderInsert == null){
+						if (parentNum != 0) {
+							selectNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+							folderInsert = new FolderInsert(parentNum,id, companyNum, MainPage.this);
+							Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+							folderInsert.setLocation((dim.width / 2) - (folderInsert.getWidth() / 2),
+									(dim.height / 2) - (folderInsert.getHeight() / 2));
+							folderInsert.setVisible(true);
+						} else {
+							JOptionPane.showMessageDialog(null, "폴더를 선택해주세요.");
+						}
+					}else{
+						JOptionPane.showMessageDialog(null,"이미 사용중인 서비스입니다.");
 					}
+					
 				}
 			});
 			forder.add(insert);
@@ -309,13 +310,16 @@ public class MainPage extends JFrame {
 				JMenuItem companyList = new JMenuItem("회사 목록");
 				companyList.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						
-						CompList = new CompanyList(MainPage.this);
-						Dimension dim = Toolkit.getDefaultToolkit()
-								.getScreenSize();
-						CompList.setLocation((dim.width / 2) - (CompList.getWidth() / 2),
-								(dim.height / 2) - (CompList.getHeight() / 2));
-						CompList.setVisible(true);
+						if(CompList == null){
+							CompList = new CompanyList(MainPage.this);
+							Dimension dim = Toolkit.getDefaultToolkit()
+									.getScreenSize();
+							CompList.setLocation((dim.width / 2) - (CompList.getWidth() / 2),
+									(dim.height / 2) - (CompList.getHeight() / 2));
+							CompList.setVisible(true);
+						}else{
+							JOptionPane.showMessageDialog(null,"이미 사용중인 서비스입니다.");
+						}	
 					}
 				});
 				company.add(companyList);
