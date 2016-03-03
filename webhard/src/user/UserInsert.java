@@ -227,6 +227,7 @@ public class UserInsert extends JDialog {
 				CompanyDao compDao= new CompanyDao();
 				String id=IdText.getText();
 				String pw=PwField.getText();
+				String pwdaccess = pwaccess.getText();
 				String name=NameText.getText();
 				String com=company.getSelectedItem();
 				String addr=AddrText.getText();
@@ -252,7 +253,13 @@ public class UserInsert extends JDialog {
 				}else if(addr.length() == 0){
 					JOptionPane.showMessageDialog(null,"주소를 입력하지 않았습니다.");
 					setVisible(true);
-				}else{
+				}else if(!pw.equals(pwdaccess)){
+					JOptionPane.showMessageDialog(null,"비밀번호가 틀립니다.");
+					insertBtn.enable(false);
+					PwField.setText("");
+					pwaccess.setText("");
+				}
+				else{
 					userdao.entryNewUser(id, pw, name, phone, addr, compNum);
 					JOptionPane.showMessageDialog(null,"가입을 축하드립니다.");
 					setVisible(false);
