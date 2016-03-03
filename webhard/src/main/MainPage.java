@@ -93,7 +93,7 @@ public class MainPage extends JFrame {
 		 * frame.setVisible(true); } catch (Exception e) { e.printStackTrace();
 		 * } } });
 		 */
-		System.out.println(123);
+		
 	}
 
 	/**
