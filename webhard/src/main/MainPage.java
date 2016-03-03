@@ -72,10 +72,14 @@ import javax.swing.border.SoftBevelBorder;
 public class MainPage extends JFrame {
 	
 	private AccessList Al;
-	private FolderInsert folderInsert;
-	private CompanyList CompList;
 	private UserList ul;
+	
+	private CompanyList CompList;
 	private CompanyInsert ci;
+	
+	private FolderInsert folderInsert;
+	private FolderUpdate folderupdate;
+	
 	private Button Logout;
 	private JTable table;
 	private JPanel panel_2;
@@ -160,21 +164,20 @@ public class MainPage extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if (parentNum != 0) {
-						FolderUpdate folderupdate = new FolderUpdate(parentNum,
-								MainPage.this, companyNum, id);
-						Dimension dim = Toolkit.getDefaultToolkit()
-								.getScreenSize();
-						folderupdate.setLocation((dim.width / 2)
-								- (folderupdate.getWidth() / 2),
-								(dim.height / 2)
-										- (folderupdate.getHeight() / 2));
-						folderupdate.setVisible(true);
+					if(folderupdate == null){
+						if (parentNum != 0) {
+							folderupdate = new FolderUpdate(parentNum,MainPage.this, companyNum, id);
+							Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+							folderupdate.setLocation((dim.width / 2) - (folderupdate.getWidth() / 2),
+									(dim.height / 2) - (folderupdate.getHeight() / 2));
+							folderupdate.setVisible(true);
 
-					} else {
-						JOptionPane.showMessageDialog(null, "폴더를 선택해주세요.");
+						} else {
+							JOptionPane.showMessageDialog(null, "폴더를 선택해주세요.");
+						}
+					}else{
+						JOptionPane.showMessageDialog(null,"이미 사용중인 서비스입니다.");
 					}
-
 				}
 			});
 			forder.add(update);
@@ -204,15 +207,11 @@ public class MainPage extends JFrame {
 			flieinsert.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (parentNum != 0) {
-						selectNode = (DefaultMutableTreeNode) tree
-								.getLastSelectedPathComponent();
-						FileInsert flieI = new FileInsert(parentNum,
-								companyNum, id, MainPage.this);
-						Dimension dim = Toolkit.getDefaultToolkit()
-								.getScreenSize();
-						flieI.setLocation((dim.width / 2)
-								- (flieI.getWidth() / 2), (dim.height / 2)
-								- (flieI.getHeight() / 2));
+						selectNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+						FileInsert flieI = new FileInsert(parentNum,companyNum, id, MainPage.this);
+						Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+						flieI.setLocation((dim.width / 2) - (flieI.getWidth() / 2),
+								(dim.height / 2) - (flieI.getHeight() / 2));
 						flieI.setVisible(true);
 					} else {
 						JOptionPane.showMessageDialog(null, "폴더를 선택해주세요.");
@@ -249,7 +248,6 @@ public class MainPage extends JFrame {
 				JMenuItem tureUser = new JMenuItem("인증대기 사용자 목록");
 				tureUser.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						
 						if(Al == null){
 							Al = new AccessList();
 							Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -270,8 +268,7 @@ public class MainPage extends JFrame {
 
 				JMenuItem UserDelete = new JMenuItem("사용자 메뉴");
 				UserDelete.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						
+					public void actionPerformed(ActionEvent e) {			
 						if(ul==null){
 							ul = new UserList();
 							Dimension dim = Toolkit.getDefaultToolkit()
@@ -293,7 +290,6 @@ public class MainPage extends JFrame {
 				JMenuItem companyinsert = new JMenuItem("회사 등록");
 				companyinsert.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						
 						if(ci==null){
 							ci = new CompanyInsert(id, MainPage.this);
 							Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -310,10 +306,10 @@ public class MainPage extends JFrame {
 				JMenuItem companyList = new JMenuItem("회사 목록");
 				companyList.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						
 						if(CompList == null){
 							CompList = new CompanyList(MainPage.this);
-							Dimension dim = Toolkit.getDefaultToolkit()
-									.getScreenSize();
+							Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 							CompList.setLocation((dim.width / 2) - (CompList.getWidth() / 2),
 									(dim.height / 2) - (CompList.getHeight() / 2));
 							CompList.setVisible(true);
