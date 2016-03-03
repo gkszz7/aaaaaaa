@@ -335,7 +335,8 @@ public class MainPage extends JFrame {
 		panel_3.setPreferredSize(new Dimension(330, 70));
 		panel.add(panel_3, BorderLayout.EAST);
 		// admin 사용구간
-
+	
+		
 		Logout = new Button("로그아웃");
 		Logout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
