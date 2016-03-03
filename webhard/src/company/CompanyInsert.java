@@ -160,15 +160,15 @@ public class CompanyInsert extends JDialog {
 						CompanyDao dao = new CompanyDao();
 						boolean check = dao.checkCompanyName(ComName);
 						if(check ==true){
-							JOptionPane.showMessageDialog(null,"존재하는 회사 명 입니다.");
+							JOptionPane.showMessageDialog(null,"존재하는 아이디입니다.");
 							setVisible(true);
 							CommpanyName.setText("");
 						}else{
-							JOptionPane.showMessageDialog(null,"사용 가능 한 회사 명 입니다.");
+							JOptionPane.showMessageDialog(null,"사용 가능 한 아이디입니다.");
 							setVisible(true);
 						}
 					}else{
-						JOptionPane.showMessageDialog(null,"회사 명을 입력해주세요.");
+						JOptionPane.showMessageDialog(null,"아이디를 입력해주세요.");
 					}
 				}
 			});

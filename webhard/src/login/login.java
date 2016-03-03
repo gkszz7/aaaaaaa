@@ -40,7 +40,6 @@ public class login extends JDialog {
 	/**
 	 * Launch the application.
 	 */
-	
 	private ImageIcon im;
 	private JTextField idtext;
 	private JPasswordField pwField;
@@ -169,19 +168,14 @@ public class login extends JDialog {
 						String name = dao.getUserName(id);
 						int admin = dao.getUserAdmin(id);
 						int access = dao.getUserAccess(id);
-						int companynum = dao.selectcompany(id);
-						String companyName = dao.selectcompanyname(companynum);
 						String id2 = id;
-						JOptionPane.showMessageDialog(null, companyName+"회사로 로그인 되었습니다.");
 						dispose();
-						MainPage ma = new MainPage(name,companyName,id2, admin, access);
-						
+						MainPage ma = new MainPage(name, id2, admin, access);
 						Dimension dim = Toolkit.getDefaultToolkit()
 								.getScreenSize();
 						ma.setLocation((dim.width / 2) - (ma.getWidth() / 2),
 								(dim.height / 2) - (ma.getHeight() / 2));
 						ma.setVisible(true);
-						
 					} else if (check == 0) {
 						JOptionPane.showMessageDialog(null, "비밀번호가 틀립니다.");
 					} else {
