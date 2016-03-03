@@ -72,6 +72,7 @@ import javax.swing.border.SoftBevelBorder;
 public class MainPage extends JFrame {
 	
 	private AccessList Al;
+	private CompanyList CompList;
 	private UserList ul;
 	private CompanyInsert ci;
 	private Button Logout;
@@ -308,12 +309,13 @@ public class MainPage extends JFrame {
 				JMenuItem companyList = new JMenuItem("회사 목록");
 				companyList.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						CompanyList ci = new CompanyList(MainPage.this);
+						
+						CompList = new CompanyList(MainPage.this);
 						Dimension dim = Toolkit.getDefaultToolkit()
 								.getScreenSize();
-						ci.setLocation((dim.width / 2) - (ci.getWidth() / 2),
-								(dim.height / 2) - (ci.getHeight() / 2));
-						ci.setVisible(true);
+						CompList.setLocation((dim.width / 2) - (CompList.getWidth() / 2),
+								(dim.height / 2) - (CompList.getHeight() / 2));
+						CompList.setVisible(true);
 					}
 				});
 				company.add(companyList);
