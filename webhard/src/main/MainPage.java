@@ -93,7 +93,6 @@ public class MainPage extends JFrame {
 		 * frame.setVisible(true); } catch (Exception e) { e.printStackTrace();
 		 * } } });
 		 */
-		System.out.println("123");
 	}
 
 	/**
@@ -317,7 +316,8 @@ public class MainPage extends JFrame {
 		UserName.setText(name);
 		panel_3.add(UserName);
 		// admin 사용구간
-
+	
+		
 		Logout = new Button("로그아웃");
 		Logout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
