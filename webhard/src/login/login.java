@@ -176,7 +176,7 @@ public class login extends JDialog {
 						dispose();
 						MainPage ma = new MainPage(name,companyName,id2, admin, access);
 						
-						Dimension dim = Toolkit.getDefaultToolkit()
+						Dimension dim = Toolkit.getDefaultToolkit()    
 								.getScreenSize();
 						ma.setLocation((dim.width / 2) - (ma.getWidth() / 2),
 								(dim.height / 2) - (ma.getHeight() / 2));
