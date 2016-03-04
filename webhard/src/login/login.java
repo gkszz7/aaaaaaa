@@ -170,12 +170,12 @@ public class login extends JDialog {
 						int access = dao.getUserAccess(id);
 						String id2 = id;
 						dispose();
-						MainPage ma = new MainPage(name, id2, admin, access);
-						Dimension dim = Toolkit.getDefaultToolkit()
-								.getScreenSize();
-						ma.setLocation((dim.width / 2) - (ma.getWidth() / 2),
-								(dim.height / 2) - (ma.getHeight() / 2));
-						ma.setVisible(true);
+//						MainPage ma = new MainPage(name, id2, admin, access);
+//						Dimension dim = Toolkit.getDefaultToolkit()
+//								.getScreenSize();
+//						ma.setLocation((dim.width / 2) - (ma.getWidth() / 2),
+//								(dim.height / 2) - (ma.getHeight() / 2));
+//						ma.setVisible(true);
 					} else if (check == 0) {
 						JOptionPane.showMessageDialog(null, "비밀번호가 틀립니다.");
 					} else {

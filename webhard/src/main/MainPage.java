@@ -61,15 +61,25 @@ import file.FileInsert;
 import file.Filedownload;
 import folder.FolderInsert;
 import folder.FolderUpdate;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
+import javax.swing.border.SoftBevelBorder;
 
 public class MainPage extends JFrame {
-
 	
 	private AccessList Al;
-	private FolderInsert folderInsert;
-	private CompanyList CompList;
 	private UserList ul;
+	
+	private CompanyList CompList;
 	private CompanyInsert ci;
+	
+	private FolderInsert folderInsert;
+	private FolderUpdate folderupdate;
+	
 	private Button Logout;
 	private JTable table;
 	private JPanel panel_2;
@@ -99,7 +109,6 @@ public class MainPage extends JFrame {
 		 * frame.setVisible(true); } catch (Exception e) { e.printStackTrace();
 		 * } } });
 		 */
-		
 	}
 
 	/**
@@ -107,7 +116,7 @@ public class MainPage extends JFrame {
 	 * 
 	 * @param access
 	 */
-	public MainPage(String name, final String id, int admin, int access) {
+	public MainPage(String name,String companyname, final String id, int admin, int access) {
 		if(access==0){
 			JOptionPane.showMessageDialog(null,id+"님은 안증대기 상태입니다.");
 		}
@@ -115,8 +124,6 @@ public class MainPage extends JFrame {
 		uDto.setUserId(id);
 		uDto.setAdmin(admin);
 		uDto.setAccess(access);
-		uDto.setUserName(name);
-		setResizable(false);
 		setTitle("웹 하드");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 999, 696);
@@ -157,21 +164,20 @@ public class MainPage extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if (parentNum != 0) {
-						FolderUpdate folderupdate = new FolderUpdate(parentNum,
-								MainPage.this, companyNum, id);
-						Dimension dim = Toolkit.getDefaultToolkit()
-								.getScreenSize();
-						folderupdate.setLocation((dim.width / 2)
-								- (folderupdate.getWidth() / 2),
-								(dim.height / 2)
-										- (folderupdate.getHeight() / 2));
-						folderupdate.setVisible(true);
+					if(folderupdate == null){
+						if (parentNum != 0) {
+							folderupdate = new FolderUpdate(parentNum,MainPage.this, companyNum, id);
+							Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+							folderupdate.setLocation((dim.width / 2) - (folderupdate.getWidth() / 2),
+									(dim.height / 2) - (folderupdate.getHeight() / 2));
+							folderupdate.setVisible(true);
 
-					} else {
-						JOptionPane.showMessageDialog(null, "폴더를 선택해주세요.");
+						} else {
+							JOptionPane.showMessageDialog(null, "폴더를 선택해주세요.");
+						}
+					}else{
+						JOptionPane.showMessageDialog(null,"이미 사용중인 서비스입니다.");
 					}
-
 				}
 			});
 			forder.add(update);
@@ -201,15 +207,11 @@ public class MainPage extends JFrame {
 			flieinsert.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (parentNum != 0) {
-						selectNode = (DefaultMutableTreeNode) tree
-								.getLastSelectedPathComponent();
-						FileInsert flieI = new FileInsert(parentNum,
-								companyNum, id, MainPage.this);
-						Dimension dim = Toolkit.getDefaultToolkit()
-								.getScreenSize();
-						flieI.setLocation((dim.width / 2)
-								- (flieI.getWidth() / 2), (dim.height / 2)
-								- (flieI.getHeight() / 2));
+						selectNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+						FileInsert flieI = new FileInsert(parentNum,companyNum, id, MainPage.this);
+						Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+						flieI.setLocation((dim.width / 2) - (flieI.getWidth() / 2),
+								(dim.height / 2) - (flieI.getHeight() / 2));
 						flieI.setVisible(true);
 					} else {
 						JOptionPane.showMessageDialog(null, "폴더를 선택해주세요.");
@@ -242,17 +244,19 @@ public class MainPage extends JFrame {
 				falseUser = new JMenu("인증대기 사용자");
 				falseUser.setHorizontalAlignment(SwingConstants.CENTER);
 				menuBar.add(falseUser);
-
+				
 				JMenuItem tureUser = new JMenuItem("인증대기 사용자 목록");
 				tureUser.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-
-						AccessList Al = new AccessList();
-						Dimension dim = Toolkit.getDefaultToolkit()
-								.getScreenSize();
-						Al.setLocation((dim.width / 2) - (Al.getWidth() / 2),
-								(dim.height / 2) - (Al.getHeight() / 2));
-						Al.setVisible(true);
+						if(Al == null){
+							Al = new AccessList();
+							Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+							Al.setLocation((dim.width / 2) - (Al.getWidth() / 2),
+									(dim.height / 2) - (Al.getHeight() / 2));
+							Al.setVisible(true);		
+						}else{
+							JOptionPane.showMessageDialog(null,"이미 사용중인 서비스입니다.");
+						}
 
 					}
 				});
@@ -264,15 +268,18 @@ public class MainPage extends JFrame {
 
 				JMenuItem UserDelete = new JMenuItem("사용자 메뉴");
 				UserDelete.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-
-						UserList ul = new UserList();
-						Dimension dim = Toolkit.getDefaultToolkit()
-								.getScreenSize();
-						ul.setLocation((dim.width / 2) - (ul.getWidth() / 2),
-								(dim.height / 2) - (ul.getHeight() / 2));
-						ul.setVisible(true);
-
+					public void actionPerformed(ActionEvent e) {			
+						if(ul==null){
+							ul = new UserList();
+							Dimension dim = Toolkit.getDefaultToolkit()
+									.getScreenSize();
+							ul.setLocation((dim.width / 2) - (ul.getWidth() / 2),
+									(dim.height / 2) - (ul.getHeight() / 2));
+							ul.setVisible(true);
+						}else{
+							JOptionPane.showMessageDialog(null,"이미 사용중인 서비스입니다.");
+						}
+						
 					}
 				});
 				UserList.add(UserDelete);
@@ -283,28 +290,26 @@ public class MainPage extends JFrame {
 				JMenuItem companyinsert = new JMenuItem("회사 등록");
 				companyinsert.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						CompanyInsert ci = new CompanyInsert(id, MainPage.this);
-						Dimension dim = Toolkit.getDefaultToolkit()
-								.getScreenSize();
-						ci.setLocation((dim.width / 2) - (ci.getWidth() / 2),
-								(dim.height / 2) - (ci.getHeight() / 2));
-						ci.setVisible(true);
+						if(ci==null){
+							ci = new CompanyInsert(id, MainPage.this);
+							Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+							ci.setLocation((dim.width / 2) - (ci.getWidth() / 2),
+									(dim.height / 2) - (ci.getHeight() / 2));
+							ci.setVisible(true);
+						}else{
+							JOptionPane.showMessageDialog(null,"이미 사용중인 서비스입니다.");
+						}
 					}
 				});
 
 				company.add(companyinsert);
-				JMenuItem companyList = new JMenuItem(
-						"\uD68C\uC0AC \uBAA9\uB85D");
+				JMenuItem companyList = new JMenuItem("회사 목록");
 				companyList.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						CompanyList ci = new CompanyList();
-						Dimension dim = Toolkit.getDefaultToolkit()
-								.getScreenSize();
-						ci.setLocation((dim.width / 2) - (ci.getWidth() / 2),
-								(dim.height / 2) - (ci.getHeight() / 2));
-						ci.setVisible(true);
+						
 						if(CompList == null){
-
+							CompList = new CompanyList(MainPage.this);
+							Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 							CompList.setLocation((dim.width / 2) - (CompList.getWidth() / 2),
 									(dim.height / 2) - (CompList.getHeight() / 2));
 							CompList.setVisible(true);
@@ -326,19 +331,13 @@ public class MainPage extends JFrame {
 		panel.setLayout(new BorderLayout(0, 0));
 
 		JPanel panel_3 = new JPanel();
-		panel_3.setPreferredSize(new Dimension(150, 70));
+		panel_3.setPreferredSize(new Dimension(330, 70));
 		panel.add(panel_3, BorderLayout.EAST);
-
-		JLabel UserName = new JLabel();
-		UserName.setText(name);
-		panel_3.add(UserName);
 		// admin 사용구간
-	
-		
+	                     
 		Logout = new Button("로그아웃");
 		Logout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Object obj = e.getSource();
 				if ((JOptionPane.showConfirmDialog(Logout, "로그아웃하시겠습니까??",
 						"로그아웃 확인", JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION) {
 					login lo = new login();
@@ -347,10 +346,32 @@ public class MainPage extends JFrame {
 							(dim.height / 2) - (lo.getHeight() / 2));
 					lo.setVisible(true);
 					dispose();
-				}
+				}     
 			}
 		});
+		
+		JPanel panel_8 = new JPanel();
+		panel_8.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_8.setPreferredSize(new Dimension(240, 25));
+		panel_3.add(panel_8);
+		
+		JLabel lblNewLabel = new JLabel();
+		lblNewLabel.setFont(new Font("굴림", Font.PLAIN, 12));
+		panel_8.add(lblNewLabel);
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setText("회사 명 : "+companyname);
+				
+				JPanel panel_9 = new JPanel();
+				panel_9.setPreferredSize(new Dimension(5, 5));
+				panel_8.add(panel_9);
+		
+				JLabel UserName = new JLabel();
+				UserName.setFont(new Font("굴림", Font.PLAIN, 12));
+				panel_8.add(UserName);
+				UserName.setHorizontalAlignment(SwingConstants.CENTER);
+				UserName.setText("ID : "+id);
 		panel_3.add(Logout);
+		
 
 		JPanel panel_1 = new JPanel();
 		getContentPane().add(panel_1, BorderLayout.CENTER);
