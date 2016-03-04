@@ -304,9 +304,7 @@ public class MainPage extends JFrame {
 								(dim.height / 2) - (ci.getHeight() / 2));
 						ci.setVisible(true);
 						if(CompList == null){
-//							CompList = new CompanyList(MainPage.this);
-//							Dimension dim = Toolkit.getDefaultToolkit()
-//									.getScreenSize();
+
 							CompList.setLocation((dim.width / 2) - (CompList.getWidth() / 2),
 									(dim.height / 2) - (CompList.getHeight() / 2));
 							CompList.setVisible(true);
