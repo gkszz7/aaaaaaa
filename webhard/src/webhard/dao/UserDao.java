@@ -871,4 +871,31 @@ public class UserDao {
 			
 			return compnum;
 		}
+		public String selectcompanyname(int companyNum){
+			
+			Connection con = null;
+	        PreparedStatement ps = null;
+	        ResultSet rs = null;
+	        String companyName = "";
+	        try {
+				con=connection.conn();
+				String sql="select companyname from company where companyNum=?";
+				ps = con.prepareStatement(sql);
+				ps.setInt(1, companyNum);
+				rs=ps.executeQuery();
+				if(rs.next()){
+					companyName=rs.getString(1);
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}finally{
+				try {rs.close();} catch (Exception e) {e.printStackTrace();}
+				try {ps.close();} catch (Exception e) {e.printStackTrace();}
+				try {con.close();} catch (Exception e) {e.printStackTrace();}
+			}
+			
+			return companyName;
+		}
 }
+

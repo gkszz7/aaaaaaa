@@ -94,20 +94,29 @@ public class CompanyInsert extends JDialog {
 							
 							if(CommpanyName.getText().length()>0 && CommpanyAddr.getText().length()>0 && phone1.getText().length()>0 && phone2.getText().length()>0 &&phone3.getText().length()>0){
 								
-								String Coname = CommpanyName.getText();
-								String coAddr = CommpanyAddr.getText();
-								String Phone = phone1.getText() + phone2.getText() + phone3.getText();
-								
 								CompanyDao dao = new CompanyDao();
 								FolderDao fDao = new FolderDao();
-								dao.entryNewCompany(Coname, coAddr, Phone);
-								int cNum=dao.selectCompanyNum(Coname);
-								dto = fDao.addNewFolder(Coname, homeNum, id, cNum);
 								
-								JOptionPane.showMessageDialog(null,"회사가 등록되었습니다.");
-								setVisible(false);
+								String Coname = CommpanyName.getText();
+								String coAddr = CommpanyAddr.getText();
 								
-								mainPage.addCompanyFolder(dto);
+								boolean check = dao.checkCompanyName(Coname);
+								if(Coname.length()>0 && check == false){
+											
+									String Phone = phone1.getText() + phone2.getText() + phone3.getText();
+									
+									dao.entryNewCompany(Coname, coAddr, Phone);
+									int cNum=dao.selectCompanyNum(Coname);
+									dto = fDao.addNewFolder(Coname, homeNum, id, cNum);
+									JOptionPane.showMessageDialog(null,"회사가 등록되었습니다.");
+									setVisible(false);
+									
+									mainPage.addCompanyFolder(dto);
+								}else{
+									JOptionPane.showMessageDialog(null,"존재하는 회사 명 입니다.");
+									CommpanyName.setText("");
+								}
+								
 							}
 							else{
 								JOptionPane.showMessageDialog(null,"모두 작성해주시기 바랍니다..");
