@@ -36,7 +36,7 @@ public class FolderInsert extends JDialog {
 	private FolderDto newFolder;
 
 	/**
-	 * Launch the application.
+	 * Launch the application. 
 	 */
 	public static void main(String[] args) {
 //		try {

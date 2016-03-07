@@ -249,7 +249,7 @@ public class CompanyDao {
 				company.setCompanyAddr(rs.getString(3));
 				company.setCompanyPhone(rs.getString(4));
 				company.setCompanyCreationDate(rs.getString(5));
-				
+				 
 				companys.add(company);
 			}
 			

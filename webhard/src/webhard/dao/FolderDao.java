@@ -538,7 +538,7 @@ public class FolderDao {
 		
 		return  companyNum;
 	}
-public int parentHoemNum(int itemNum){
+public int parentHomeNum(int itemNum){
 		
 		Connection con = null;
         PreparedStatement ps = null;
@@ -552,7 +552,7 @@ public int parentHoemNum(int itemNum){
 			rs=ps.executeQuery();
 			if(rs.next()){
 				 companyNum=rs.getInt(1);
-			}
+			} 
 			
 		} catch (Exception e) {
 			e.printStackTrace();
