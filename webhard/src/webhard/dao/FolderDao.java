@@ -190,7 +190,7 @@ public class FolderDao {
         try {
 			con = connection.conn();
 			String sql="select f.foldertype, f.step, i.itemNum, i.name, i.ITEM_CREATION_DATE, i.parentNum, i.userid, i.companyNum "
-					+ "from folder f, item i where i.itemNum = f.itemNum and i.itemNum = 140";
+					+ "from folder f, item i where i.itemNum = f.itemNum and i.itemNum = 78";
 			ps = con.prepareStatement(sql);
 			rs=ps.executeQuery();
 			
@@ -281,11 +281,6 @@ public class FolderDao {
 			ps.setInt(2, itemNum);
 			
 			ps.executeUpdate();
-			
-			dto.setName(name);
-	        dto.setItemNum(itemNum);
-	        dto.setCompanyNum(companyNum);
-	        dto.setUserId(userId);
 
 			
 		} catch (Exception e) {
@@ -417,7 +412,8 @@ public class FolderDao {
 				items.add(item);
 			}
 			
-			String sql2="select i.itemNum, i.name, i.ITEM_CREATION_DATE, i.parentNum, i.userid, i.companyNum, f.fileurl, f.filesize, f.filetype from file f, item i where i.parentNum = ? and i.itemNum = f.itemNum";
+			String sql2="select i.itemNum, i.name, i.ITEM_CREATION_DATE, i.parentNum, i.userid, i.companyNum, f.fileurl, "
+					+ "f.filesize, f.filetype from file f, item i where i.parentNum = ? and i.itemNum = f.itemNum";
 			ps = con.prepareStatement(sql2);
 			ps.setInt(1, itemNum);
 			rs=ps.executeQuery();
@@ -460,7 +456,7 @@ public class FolderDao {
         
         try {
 			con = connection.conn();
-			String sql="select * from item where companyNum= ? and parentNum = 140";
+			String sql="select * from item where companyNum= ? and parentNum = 78";
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, comNum);
 			rs=ps.executeQuery();

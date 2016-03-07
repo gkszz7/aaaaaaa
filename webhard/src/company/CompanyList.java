@@ -63,7 +63,7 @@ public class CompanyList extends JDialog {
 	 * Create the dialog.
 	 */
 	
-	public CompanyList(final MainPage main) {
+	public CompanyList(final MainPage main, final String userId) {
 		getContentPane().setBackground(Color.WHITE);
 		setBackground(Color.WHITE);
 		setTitle("\uD68C\uC0AC \uBAA9\uB85D");
@@ -141,7 +141,7 @@ public class CompanyList extends JDialog {
 					String companyAddr = dto.getCompanyAddr();
 					String companyPhone = dto.getCompanyPhone();
 					    
-					CompanyUpdate update = new CompanyUpdate(compnum,companyname,companyAddr,companyPhone, CompanyList.this);
+					CompanyUpdate update = new CompanyUpdate(compnum,companyname,companyAddr,companyPhone, CompanyList.this ,main, userId);
 					CompanyDto dto2 = dao.getData(id);
 					Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 					update.setLocation((dim.width / 2) - (update.getWidth() / 2),

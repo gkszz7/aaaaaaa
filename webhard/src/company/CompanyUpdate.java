@@ -20,8 +20,12 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import main.MainPage;
 import webhard.dao.CompanyDao;
+import webhard.dao.FolderDao;
 import webhard.dto.CompanyDto;
+import webhard.dto.FolderDto;
+import webhard.dto.ItemDto;
 
 public class CompanyUpdate extends JDialog {
 
@@ -54,7 +58,7 @@ public class CompanyUpdate extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public CompanyUpdate(final int compnum ,String Name, String addr, String phone, final CompanyList comList) {
+	public CompanyUpdate(final int compnum ,final String name, String addr, String phone, final CompanyList comList, final MainPage main, final String id) {
 		setResizable(false);
 		setBounds(100, 100, 430, 277);
 		getContentPane().setLayout(new BorderLayout());
@@ -78,7 +82,7 @@ public class CompanyUpdate extends JDialog {
 
 		CompName = new JTextField();
 		CompName.setBounds(125, 65, 187, 21);
-		CompName.setText(Name);
+		CompName.setText(name);
 		contentPanel.add(CompName);
 		CompName.setColumns(10);
 
@@ -125,6 +129,9 @@ public class CompanyUpdate extends JDialog {
 				public void actionPerformed(ActionEvent e) {
 					
 					CompanyDao Dao = new CompanyDao();
+					FolderDao folDao = new FolderDao();
+					FolderDto folDto = new FolderDto();
+					ItemDto updateFolder = folDao.printFolderbyCompanyNum(compnum);
 					String CoName = CompName.getText();
 					String coAddr = compAddr.getText();
 					String Phone = compPhone.getText();
@@ -135,6 +142,8 @@ public class CompanyUpdate extends JDialog {
 					
 					if(CoName.length()>0 && check == false){
 						Dao.updateCompany(compnum, CoName, coAddr, Phone);
+						folDto = folDao.updateFolder(CoName, updateFolder.getItemNum(), compnum, id);
+						main.updateComFolder(folDto, name);
 						companys = Dao.selectCompany();
 						JOptionPane.showMessageDialog(null,"수정되었습니다.");
 						comList.listBySearch(companys);
