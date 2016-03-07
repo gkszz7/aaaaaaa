@@ -93,6 +93,7 @@ public class MainPage extends JFrame {
 	int parentNum = 0;
 	int homeNum = 0;
 	int companyNum = 0;
+	int deleteComNum = 0;
 	private UserDto uDto;
 	private DefaultMutableTreeNode selectNode;
 
@@ -824,13 +825,50 @@ public class MainPage extends JFrame {
 		tree.updateUI();
 
 	}
-	public void deleteCompanyFolder(int comNum) {
-		FolderDao dao = new FolderDao();
-		ItemDto itemdto = dao.printFolderbyCompanyNum(comNum);
-		selectNode = new DefaultMutableTreeNode(itemdto);
-		deleteFolder(comNum);
+	public void deleteCompanyFolder(int itemNum, String name) {
+		DefaultMutableTreeNode node = null;
+		deleteComNum = itemNum;
+		for(int i = 0; i<home.getChildCount(); i++){
+			if(home.getChildAt(i).toString().equals(name)){
+				node = (DefaultMutableTreeNode) home.getChildAt(i);			
+				selectNode = node;
+				deleteCompanyFolder(itemNum);
+			}
+		}		
+		
 		tree.updateUI();
 
+	}
+	public void deleteCompanyFolder(int itemNum) {
+		
+		
+		ArrayList<Integer> childs = new ArrayList<Integer>();
+		FolderDao dao = new FolderDao();
+		childs = (ArrayList<Integer>) dao.itemNumByParentNum(itemNum);
+
+		for (int i = 0; i < childs.size(); i++) {
+			int child = childs.get(i);
+			ArrayList<Integer> grandChilds = (ArrayList<Integer>) dao
+					.itemNumByParentNum(child);
+			if (grandChilds.size() != 0) {
+				for (int j = 0; j < grandChilds.size(); j++) {
+					deleteCompanyFolder(child);
+					if (((ArrayList<Integer>) dao.itemNumByParentNum(child))
+							.size() == 0) {
+						dao.deleteFolder(child);
+					}
+				}
+			} else {
+				dao.deleteFolder(child);
+			}
+		}
+		if (((ArrayList<Integer>) dao.itemNumByParentNum(deleteComNum)).size() == 0) {
+			dao.deleteFolder(deleteComNum);
+
+		}
+		
+		selectNode.removeAllChildren();
+		selectNode.removeFromParent();
 	}
 
 	public void addNewFolder(FolderDto newFolder) {

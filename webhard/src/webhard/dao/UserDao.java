@@ -249,14 +249,18 @@ public class UserDao {
         int index = searchname.indexOf("*");
         String search=null;
         String name =null;
-        if(searchname.endsWith("*")){
-        	name = searchname.substring(0, index);
-        	search = name+"%";
+        if(searchname.endsWith("*") && searchname.startsWith("*")){
+        	name = searchname.replace("*", "");
+        	search = "%"+name+"%";
+        	System.out.println(search);
         }else if(searchname.startsWith("*")){
         	name = searchname.substring(index+1);
         	search = "%"+name;
+        }else if(searchname.endsWith("*")){
+        	name = searchname.substring(0, index);
+        	search = name+"%";
         }else if(searchname.contains("*") == false){
-        	search = "%"+searchname+"%";
+        	search = searchname;
         }
         try {
 			con=connection.conn();
@@ -301,14 +305,18 @@ public class UserDao {
         int index = searchId.indexOf("*");
         String search=null;
         String name =null;
-        if(searchId.endsWith("*")){
-        	name = searchId.substring(0, index);
-        	search = name+"%";
+        if(searchId.endsWith("*") && searchId.startsWith("*")){
+        	name = searchId.replace("*", "");
+        	search = "%"+name+"%";
+        	System.out.println(search);
         }else if(searchId.startsWith("*")){
         	name = searchId.substring(index+1);
         	search = "%"+name;
+        }else if(searchId.endsWith("*")){
+        	name = searchId.substring(0, index);
+        	search = name+"%";
         }else if(searchId.contains("*") == false){
-        	search = "%"+searchId+"%";
+        	search = searchId;
         }
         try {
 			con=connection.conn();
@@ -354,14 +362,18 @@ public class UserDao {
         int index = searchphone.indexOf("*");
         String search=null;
         String name =null;
-        if(searchphone.endsWith("*")){
-        	name = searchphone.substring(0, index);
-        	search = name+"%";
+        if(searchphone.endsWith("*") && searchphone.startsWith("*")){
+        	name = searchphone.replace("*", "");
+        	search = "%"+name+"%";
+        	System.out.println(search);
         }else if(searchphone.startsWith("*")){
         	name = searchphone.substring(index+1);
         	search = "%"+name;
+        }else if(searchphone.endsWith("*")){
+        	name = searchphone.substring(0, index);
+        	search = name+"%";
         }else if(searchphone.contains("*") == false){
-        	search = "%"+searchphone+"%";
+        	search = searchphone;
         }
         try {
 			con=connection.conn();
@@ -406,14 +418,18 @@ public class UserDao {
         int index = searchcom.indexOf("*");
         String search=null;
         String name =null;
-        if(searchcom.endsWith("*")){
-        	name = searchcom.substring(0, index);
-        	search = name+"%";
+        if(searchcom.endsWith("*") && searchcom.startsWith("*")){
+        	name = searchcom.replace("*", "");
+        	search = "%"+name+"%";
+        	System.out.println(search);
         }else if(searchcom.startsWith("*")){
         	name = searchcom.substring(index+1);
         	search = "%"+name;
+        }else if(searchcom.endsWith("*")){
+        	name = searchcom.substring(0, index);
+        	search = name+"%";
         }else if(searchcom.contains("*") == false){
-        	search = "%"+searchcom+"%";
+        	search = searchcom;
         }
         try {
 			con=connection.conn();
@@ -458,14 +474,18 @@ public class UserDao {
         int index = searchname.indexOf("*");
         String search=null;
         String name =null;
-        if(searchname.endsWith("*")){
-        	name = searchname.substring(0, index);
-        	search = name+"%";
+        if(searchname.endsWith("*") && searchname.startsWith("*")){
+        	name = searchname.replace("*", "");
+        	search = "%"+name+"%";
+        	System.out.println(search);
         }else if(searchname.startsWith("*")){
         	name = searchname.substring(index+1);
         	search = "%"+name;
+        }else if(searchname.endsWith("*")){
+        	name = searchname.substring(0, index);
+        	search = name+"%";
         }else if(searchname.contains("*") == false){
-        	search = "%"+searchname+"%";
+        	search = searchname;
         }
         try {
 			con=connection.conn();
@@ -510,14 +530,18 @@ public class UserDao {
         int index = searchid.indexOf("*");
         String search=null;
         String name =null;
-        if(searchid.endsWith("*")){
-        	name = searchid.substring(0, index);
-        	search = name+"%";
+        if(searchid.endsWith("*") && searchid.startsWith("*")){
+        	name = searchid.replace("*", "");
+        	search = "%"+name+"%";
+        	System.out.println(search);
         }else if(searchid.startsWith("*")){
         	name = searchid.substring(index+1);
         	search = "%"+name;
+        }else if(searchid.endsWith("*")){
+        	name = searchid.substring(0, index);
+        	search = name+"%";
         }else if(searchid.contains("*") == false){
-        	search = "%"+searchid+"%";
+        	search = searchid;
         }
         try {
 			con=connection.conn();
@@ -562,14 +586,18 @@ public class UserDao {
         int index = searchcom.indexOf("*");
         String search=null;
         String name =null;
-        if(searchcom.endsWith("*")){
-        	name = searchcom.substring(0, index);
-        	search = name+"%";
+        if(searchcom.endsWith("*") && searchcom.startsWith("*")){
+        	name = searchcom.replace("*", "");
+        	search = "%"+name+"%";
+        	System.out.println(search);
         }else if(searchcom.startsWith("*")){
         	name = searchcom.substring(index+1);
         	search = "%"+name;
+        }else if(searchcom.endsWith("*")){
+        	name = searchcom.substring(0, index);
+        	search = name+"%";
         }else if(searchcom.contains("*") == false){
-        	search = "%"+searchcom+"%";
+        	search = searchcom;
         }
         try {
 			con=connection.conn();
@@ -614,14 +642,17 @@ public class UserDao {
         int index = searchphone.indexOf("*");
         String search=null;
         String name =null;
-        if(searchphone.endsWith("*")){
-        	name = searchphone.substring(0, index);
-        	search = name+"%";
+        if(searchphone.endsWith("*") && searchphone.startsWith("*")){
+        	name = searchphone.replace("*", "");
+        	search = "%"+name+"%";
         }else if(searchphone.startsWith("*")){
         	name = searchphone.substring(index+1);
         	search = "%"+name;
+        }else if(searchphone.endsWith("*")){
+        	name = searchphone.substring(0, index);
+        	search = name+"%";
         }else if(searchphone.contains("*") == false){
-        	search = "%"+searchphone+"%";
+        	search = searchphone;
         }
         try {
 			con=connection.conn();

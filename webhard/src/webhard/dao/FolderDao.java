@@ -190,7 +190,7 @@ public class FolderDao {
         try {
 			con = connection.conn();
 			String sql="select f.foldertype, f.step, i.itemNum, i.name, i.ITEM_CREATION_DATE, i.parentNum, i.userid, i.companyNum "
-					+ "from folder f, item i where i.itemNum = f.itemNum and i.itemNum = 1";
+					+ "from folder f, item i where i.itemNum = f.itemNum and i.itemNum = 41";
 			ps = con.prepareStatement(sql);
 			rs=ps.executeQuery();
 			
@@ -460,7 +460,7 @@ public class FolderDao {
         
         try {
 			con = connection.conn();
-			String sql="select * from item where companyNum= ? and parentNum = 140";
+			String sql="select * from item where companyNum= ? and parentNum = 41";
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, comNum);
 			rs=ps.executeQuery();
