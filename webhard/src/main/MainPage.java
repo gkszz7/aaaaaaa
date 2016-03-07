@@ -139,15 +139,21 @@ public class MainPage extends JFrame {
 
 			JMenuItem insert = new JMenuItem("폴더 생성");
 			insert.addActionListener(new ActionListener() {
+				
 				public void actionPerformed(ActionEvent e) {
-					if(folderInsert == null){
+						
+					
+					if(folderInsert == null){	
+						
 						if (parentNum != 0) {
 							selectNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
 							folderInsert = new FolderInsert(parentNum,id, companyNum, MainPage.this);
 							Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 							folderInsert.setLocation((dim.width / 2) - (folderInsert.getWidth() / 2),
 									(dim.height / 2) - (folderInsert.getHeight() / 2));
+							
 							folderInsert.setVisible(true);
+							
 						} else {
 							JOptionPane.showMessageDialog(null, "폴더를 선택해주세요.");
 						}
@@ -164,14 +170,16 @@ public class MainPage extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					
 					if(folderupdate == null){
+						
 						if (parentNum != 0) {
 							folderupdate = new FolderUpdate(parentNum,MainPage.this, companyNum, id);
 							Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 							folderupdate.setLocation((dim.width / 2) - (folderupdate.getWidth() / 2),
 									(dim.height / 2) - (folderupdate.getHeight() / 2));
 							folderupdate.setVisible(true);
-
+								
 						} else {
 							JOptionPane.showMessageDialog(null, "폴더를 선택해주세요.");
 						}
@@ -248,8 +256,9 @@ public class MainPage extends JFrame {
 				JMenuItem tureUser = new JMenuItem("인증대기 사용자 목록");
 				tureUser.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						
 						if(Al == null){
-							Al = new AccessList();
+							Al = new AccessList(MainPage.this);
 							Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 							Al.setLocation((dim.width / 2) - (Al.getWidth() / 2),
 									(dim.height / 2) - (Al.getHeight() / 2));
@@ -264,13 +273,14 @@ public class MainPage extends JFrame {
 
 				UserList = new JMenu("사용자 목록");
 				UserList.setHorizontalAlignment(SwingConstants.CENTER);
+				
 				menuBar.add(UserList);
 
 				JMenuItem UserDelete = new JMenuItem("사용자 메뉴");
 				UserDelete.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {			
 						if(ul==null){
-							ul = new UserList();
+							ul = new UserList(MainPage.this);
 							Dimension dim = Toolkit.getDefaultToolkit()
 									.getScreenSize();
 							ul.setLocation((dim.width / 2) - (ul.getWidth() / 2),
@@ -290,6 +300,7 @@ public class MainPage extends JFrame {
 				JMenuItem companyinsert = new JMenuItem("회사 등록");
 				companyinsert.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						
 						if(ci==null){
 							ci = new CompanyInsert(id, MainPage.this);
 							Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -316,7 +327,7 @@ public class MainPage extends JFrame {
 							CompList.setVisible(true);
 						}else{
 							JOptionPane.showMessageDialog(null,"이미 사용중인 서비스입니다.");
-						}	
+						}
 					}
 				});
 				company.add(companyList);
@@ -840,7 +851,50 @@ public class MainPage extends JFrame {
 		selectNode.add(childNode);
 		tree.updateUI();
 	}
+	
+	//창 한번만 뜨게 만들기
+	public FolderInsert openFolderInsert(FolderInsert values){
+		
+		folderInsert = values;
+		
+		return folderInsert;
+	}
+	
+	public FolderUpdate openFolderUpdate(FolderUpdate values){
+		
+		folderupdate = values;
+		
+		return folderupdate;
+	}
+	
+	public AccessList openAccessList(AccessList values){
+		
+		Al = values;
+		
+		return Al;
+	}
+	
+	public UserList openUserList(UserList values){
+		
+		ul = values;
+		
+		return ul;
+	}
+	
+	public CompanyInsert openCompanyInsert(CompanyInsert values){
+		
+		ci = values;
+		
+		return ci;
+	}
 
+	public CompanyList openCompanyList(CompanyList values){
+		
+		CompList = values;
+		
+		return CompList;
+	}
+	
 	public class CustomTreeCellRenderer extends DefaultTreeCellRenderer {
 		Icon folderIcon = new ImageIcon("Folder.png");
 		Icon closedIcon = new ImageIcon("Folder.png");

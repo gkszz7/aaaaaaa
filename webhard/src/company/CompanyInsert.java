@@ -6,6 +6,8 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -72,6 +74,51 @@ public class CompanyInsert extends JDialog {
 				panel.add(lblNewLabel);
 			}
 		}
+		this.addWindowListener(new WindowListener() {
+			
+			@Override
+			public void windowOpened(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowIconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				CompanyInsert companyInsert = null;
+				mainPage.openCompanyInsert(companyInsert);
+				dispose();	
+			}
+			
+			@Override
+			public void windowClosed(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowActivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		{
 			JPanel panel = new JPanel();
 			panel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -109,6 +156,8 @@ public class CompanyInsert extends JDialog {
 									int cNum=dao.selectCompanyNum(Coname);
 									dto = fDao.addNewFolder(Coname, homeNum, id, cNum);
 									JOptionPane.showMessageDialog(null,"회사가 등록되었습니다.");
+									CompanyInsert companyInsert = null;
+									mainPage.openCompanyInsert(companyInsert);
 									setVisible(false);
 									
 									mainPage.addCompanyFolder(dto);
@@ -135,6 +184,8 @@ public class CompanyInsert extends JDialog {
 							if ((JOptionPane
 									.showConfirmDialog(cancelBtn, "취소하시겠습니까??",
 											"종료확인", JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION) {
+								CompanyInsert companyInsert = null;
+								mainPage.openCompanyInsert(companyInsert);
 								dispose();
 							}
 						}

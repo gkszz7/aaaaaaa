@@ -6,6 +6,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -77,10 +79,13 @@ public class FolderInsert extends JDialog {
 							String name = folderName.getText();
 							newFolder = dao.addNewFolder(name, itemNum, userId, companyNum);
 							
-							JOptionPane.showMessageDialog(null,"폴더가 생성되었습니다.");
+							mainPage.addNewFolder(newFolder);
+							
+							JOptionPane.showMessageDialog(null,"폴더가 생성되었습니다.");							
+							FolderInsert folderInsert = null;
+							mainPage.openFolderInsert(folderInsert);
 							dispose();
 							
-							mainPage.addNewFolder(newFolder);
 							
 						}
 						else{
@@ -99,6 +104,8 @@ public class FolderInsert extends JDialog {
 						Object obj = e.getSource();
 		         		if((JOptionPane.showConfirmDialog(cancelButton, "취소하시겠습니까??","종료확인", JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION)
 		         	   {
+		         			FolderInsert folderInsert = null;
+							mainPage.openFolderInsert(folderInsert);
 		    				dispose();
 		         	   }
 					}
@@ -171,6 +178,51 @@ public class FolderInsert extends JDialog {
 					panel_1.add(folderName);
 					folderName.setColumns(10);
 				}
+				this.addWindowListener(new WindowListener() {
+					
+					@Override
+					public void windowOpened(WindowEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void windowIconified(WindowEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void windowDeiconified(WindowEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void windowDeactivated(WindowEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void windowClosing(WindowEvent e) {
+						FolderInsert folderInsert = null;
+						mainPage.openFolderInsert(folderInsert);
+	    				dispose();
+					}
+					
+					@Override
+					public void windowClosed(WindowEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void windowActivated(WindowEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
 			}
 		}
 	}

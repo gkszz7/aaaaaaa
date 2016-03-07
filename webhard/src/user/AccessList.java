@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +30,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+
+import main.MainPage;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -41,20 +46,20 @@ public class AccessList extends JDialog {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		try {
+	/*	try {
 			AccessList dialog = new AccessList();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 
 	/**
 	 * Create the dialog.
 	 */
-	public AccessList() {
+	public AccessList(final MainPage mainPage) {
 		setResizable(false);
 		setTitle("사용자 인증대기");
 		setBounds(100, 100, 766, 480);
@@ -91,6 +96,56 @@ public class AccessList extends JDialog {
 		comboBox.addItem("아이디");
 		comboBox.addItem("전화번호");
 		panel_2.add(comboBox);
+		
+		
+		this.addWindowListener(new WindowListener() {
+			
+			@Override
+			public void windowOpened(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowIconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				AccessList acccList = null;
+				mainPage.openAccessList(acccList);
+				dispose();
+			}
+
+			@Override
+			public void windowActivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowClosed(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+           
+
 		
 		textField = new JTextField();
 		textField.addKeyListener(new KeyAdapter() {
@@ -130,7 +185,6 @@ public class AccessList extends JDialog {
 					searchUser = dao.searchAccessByPhone(textField.getText());
 					listBySearch(searchUser);
 				}
-				
 			}
 		});
 		
@@ -172,6 +226,7 @@ public class AccessList extends JDialog {
 			});
 	        
 	}
+	
 	private void createTable(List<UserDto> users) {
 		
 		
