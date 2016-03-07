@@ -190,7 +190,7 @@ public class FolderDao {
         try {
 			con = connection.conn();
 			String sql="select f.foldertype, f.step, i.itemNum, i.name, i.ITEM_CREATION_DATE, i.parentNum, i.userid, i.companyNum "
-					+ "from folder f, item i where i.itemNum = f.itemNum and i.itemNum = 140";
+					+ "from folder f, item i where i.itemNum = f.itemNum and i.itemNum = 1";
 			ps = con.prepareStatement(sql);
 			rs=ps.executeQuery();
 			
@@ -447,5 +447,41 @@ public class FolderDao {
 		}
         
         return items;
+	}
+	
+	/**
+	 * 회사넘버로 폴더의 데이터 가져오기
+	 */
+	public ItemDto printFolderbyCompanyNum(int comNum) {
+		Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        ItemDto item = new ItemDto();
+        
+        try {
+			con = connection.conn();
+			String sql="select * from item where companyNum= ? and parentNum = 140";
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, comNum);
+			rs=ps.executeQuery();
+			
+			if(rs.next()){
+				item.setItemNum(rs.getInt(1));
+				item.setName(rs.getString(2));
+				item.setDate(rs.getString(3));
+				item.setParentNum(rs.getInt(4));
+				item.setUserId(rs.getString(5));
+				item.setCompanyNum(rs.getInt(6));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			try {rs.close();} catch (Exception e) {e.printStackTrace();}
+			try {ps.close();} catch (Exception e) {e.printStackTrace();}
+			try {con.close();} catch (Exception e) {e.printStackTrace();}
+		}
+        
+        return item;
 	}
 }

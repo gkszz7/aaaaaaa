@@ -190,6 +190,8 @@ public class MainPage extends JFrame {
 					FolderDao dao = new FolderDao();
 
 					if (parentNum != 0) {
+						selectNode = (DefaultMutableTreeNode) tree
+								.getLastSelectedPathComponent();
 						deleteFolder(parentNum);
 						tree.updateUI();
 					} else {
@@ -531,18 +533,6 @@ public class MainPage extends JFrame {
 		panel_7.setBackground(Color.WHITE);
 		panel_6.add(panel_7, BorderLayout.WEST);
 
-		/*
-		 * tree.addTreeSelectionListener(new TreeSelectionListener() {
-		 * 
-		 * @Override public void valueChanged(TreeSelectionEvent e) { TreePath
-		 * path = e.getPath(); DefaultMutableTreeNode element =
-		 * (DefaultMutableTreeNode)path.getLastPathComponent(); ItemDto
-		 * selectObtion = (ItemDto)element.getUserObject(); parentNum =
-		 * selectObtion.getItemNum(); companyNum = selectObtion.getCompanyNum();
-		 * 
-		 * } });
-		 */
-
 	}
 
 	public void setTree(DefaultMutableTreeNode cycle) {
@@ -592,8 +582,8 @@ public class MainPage extends JFrame {
 	}
 
 	public void deleteFolder(int itemNum) {
-		selectNode = (DefaultMutableTreeNode) tree
-				.getLastSelectedPathComponent();
+		
+		
 		ArrayList<Integer> childs = new ArrayList<Integer>();
 		FolderDao dao = new FolderDao();
 		childs = (ArrayList<Integer>) dao.itemNumByParentNum(itemNum);
@@ -618,6 +608,7 @@ public class MainPage extends JFrame {
 			dao.deleteFolder(parentNum);
 
 		}
+		
 		selectNode.removeAllChildren();
 		selectNode.removeFromParent();
 	}
@@ -781,6 +772,8 @@ public class MainPage extends JFrame {
 		FolderDao dao = new FolderDao();
 
 		if (parentNum != 0) {
+			selectNode = (DefaultMutableTreeNode) tree
+					.getLastSelectedPathComponent();
 			deleteFolder(parentNum);
 
 		} else {
@@ -816,8 +809,15 @@ public class MainPage extends JFrame {
 	public void addCompanyFolder(FolderDto newFolder) {
 
 		DefaultMutableTreeNode nFolder = new DefaultMutableTreeNode(newFolder);
-		System.out.println(nFolder);
 		home.add(nFolder);
+		tree.updateUI();
+
+	}
+	public void deleteCompanyFolder(int comNum) {
+		FolderDao dao = new FolderDao();
+		ItemDto itemdto = dao.printFolderbyCompanyNum(comNum);
+		selectNode = new DefaultMutableTreeNode(itemdto);
+		deleteFolder(comNum);
 		tree.updateUI();
 
 	}

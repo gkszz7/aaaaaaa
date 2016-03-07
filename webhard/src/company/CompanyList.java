@@ -101,6 +101,9 @@ public class CompanyList extends JDialog {
 					if(table.getSelectedRowCount()>0){
 						String name = table.getModel().getValueAt(table.getSelectedRow(), 0).toString();
 						if((JOptionPane.showConfirmDialog(deleteBtn, "삭제 하시겠습니까??","종료확인", JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION){
+							
+							int comNum = comDao.selectCompanyNum(name);
+							main.deleteCompanyFolder(comNum);
 							comDao.deleteCompany(name);
 							companys = comDao.selectCompany();
 							listBySearch(companys);
