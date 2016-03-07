@@ -156,6 +156,7 @@ public class CompanyInsert extends JDialog {
 									int cNum=dao.selectCompanyNum(Coname);
 									dto = fDao.addNewFolder(Coname, homeNum, id, cNum);
 									JOptionPane.showMessageDialog(null,"회사가 등록되었습니다.");
+									
 									CompanyInsert companyInsert = null;
 									mainPage.openCompanyInsert(companyInsert);
 									setVisible(false);

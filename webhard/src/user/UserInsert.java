@@ -23,13 +23,14 @@ import webhard.dto.CompanyDto;
 
 public class UserInsert extends JDialog {
 	private JTextField IdText;
-	private JPasswordField PwField, pwaccess;
+	private JPasswordField PwField;
 	private JTextField NameText;
 	private JTextField Phone1;
 	private JTextField Phone2;
 	private JTextField Phone3;
 	private JTextField AddrText;
 	private JButton cancelBtn,insertBtn;
+	private JPasswordField pwaccess;
 	/**
 	 * Launch the application.
 	 */
@@ -51,7 +52,7 @@ public class UserInsert extends JDialog {
 	public UserInsert() {
 		setTitle("\uD68C\uC6D0 \uAC00\uC785");
 		setResizable(false);
-		setBounds(100, 100, 411, 437);
+		setBounds(100, 100, 435, 462);
 		getContentPane().setLayout(new BorderLayout());
 
 		JPanel panel = new JPanel();
@@ -89,12 +90,12 @@ public class UserInsert extends JDialog {
 		
 		JLabel name = new JLabel("이름 :");
 		name.setFont(new Font("굴림", Font.PLAIN, 15));
-		name.setBounds(33, 124, 74, 15);
+		name.setBounds(33, 164, 74, 15);
 		panel_2.add(name);
 		
 		JLabel Company = new JLabel("회사 :");
 		Company.setFont(new Font("굴림", Font.PLAIN, 15));
-		Company.setBounds(34, 205, 74, 21);
+		Company.setBounds(34, 245, 74, 21);
 		panel_2.add(Company);
 		
 		IdText = new JTextField();
@@ -107,12 +108,12 @@ public class UserInsert extends JDialog {
 		panel_2.add(PwField);
 		
 		NameText = new JTextField();
-		NameText.setBounds(119, 121, 116, 21);
+		NameText.setBounds(119, 161, 116, 21);
 		panel_2.add(NameText);
 		NameText.setColumns(10);
 		
 		final Choice company = new Choice();
-		company.setBounds(120, 205, 116, 21);
+		company.setBounds(120, 245, 116, 21);
 		CompanyDao cDao = new CompanyDao();
 		List<CompanyDto> companys = new ArrayList<CompanyDto>();
 		companys = cDao.selectCompany();
@@ -128,7 +129,7 @@ public class UserInsert extends JDialog {
 		
 		JLabel Phone = new JLabel("전화번호 :");
 		Phone.setFont(new Font("굴림", Font.PLAIN, 15));
-		Phone.setBounds(33, 163, 74, 20);
+		Phone.setBounds(33, 203, 74, 20);
 		panel_2.add(Phone);
 		
 		JButton checkId = new JButton("중복확인");
@@ -152,25 +153,25 @@ public class UserInsert extends JDialog {
 		panel_2.add(checkId);
 		
 		Phone1 = new JTextField();
-		Phone1.setBounds(119, 163, 51, 21);
+		Phone1.setBounds(119, 203, 51, 21);
 		panel_2.add(Phone1);
 		Phone1.setColumns(10);
 		
 		JLabel label = new JLabel("-");
-		label.setBounds(178, 166, 13, 15);
+		label.setBounds(178, 206, 13, 15);
 		panel_2.add(label);
 		
 		Phone2 = new JTextField();
-		Phone2.setBounds(191, 163, 51, 21);
+		Phone2.setBounds(191, 203, 51, 21);
 		panel_2.add(Phone2);
 		Phone2.setColumns(10);
 		
 		JLabel label_1 = new JLabel("-");
-		label_1.setBounds(250, 166, 13, 15);
+		label_1.setBounds(250, 206, 13, 15);
 		panel_2.add(label_1);
 		
 		Phone3 = new JTextField();
-		Phone3.setBounds(260, 163, 51, 21);
+		Phone3.setBounds(260, 203, 51, 21);
 		panel_2.add(Phone3);
 		Phone3.setColumns(10);
 		
@@ -180,13 +181,42 @@ public class UserInsert extends JDialog {
 		
 		JLabel addr = new JLabel("주소 :");
 		addr.setFont(new Font("굴림", Font.PLAIN, 15));
-		addr.setBounds(34, 247, 74, 15);
+		addr.setBounds(34, 287, 74, 15);
 		panel_2.add(addr);
 		
 		AddrText = new JTextField();
-		AddrText.setBounds(120, 244, 206, 21);
+		AddrText.setBounds(120, 284, 206, 21);
 		panel_2.add(AddrText);
 		AddrText.setColumns(10);
+		
+		JLabel lblNewLabel = new JLabel("\uBE44\uBC00\uBC88\uD638 \uD655\uC778 :");
+		lblNewLabel.setFont(new Font("굴림", Font.PLAIN, 15));
+		lblNewLabel.setBounds(33, 126, 116, 15);
+		panel_2.add(lblNewLabel);
+		
+		JButton btnNewButton = new JButton("\uBE44\uBC00\uBC88\uD638 \uD655\uC778");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String password  = PwField.getText();
+				String pwdaccess = pwaccess.getText();
+				
+				if(password.equals(pwdaccess)&& password.length()>0 && pwdaccess.length()>0){
+					JOptionPane.showMessageDialog(null,"비밀번호가 일치합니다.");
+				}else if(password.length() == 0 || pwdaccess.length() == 0){
+					JOptionPane.showMessageDialog(null,"비밀번호를 작성해주세요.");
+				}else if(!password.equals(pwdaccess)){
+					JOptionPane.showMessageDialog(null,"비밀번호가 틀립니다.");
+					PwField.setText("");
+					pwaccess.setText("");
+				}
+			}
+		});
+		btnNewButton.setBounds(275, 122, 121, 23);
+		panel_2.add(btnNewButton);
+		
+		pwaccess = new JPasswordField();
+		pwaccess.setBounds(142, 123, 121, 21);
+		panel_2.add(pwaccess);
 		
 		insertBtn = new JButton("확인");
 		insertBtn.addActionListener(new ActionListener() {

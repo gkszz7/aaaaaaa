@@ -201,4 +201,31 @@ public class FileDao {
         
         return files;
 	}
+	//파일 확인
+		public boolean checkfile(int ItemNum){
+			Connection con = null;
+	        PreparedStatement ps = null;
+	        ResultSet rs = null;
+	        boolean check = false;
+	        try {
+				con=connection.conn();
+				String sql="select * from file where itemNum=?";
+				ps = con.prepareStatement(sql);
+				ps.setInt(1, ItemNum);
+				rs = ps.executeQuery();
+				if(rs.next()){
+					check = true;
+				} else {
+					check = false;
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}finally{
+				try {rs.close();} catch (Exception e) {e.printStackTrace();}
+				try {ps.close();} catch (Exception e) {e.printStackTrace();}
+				try {con.close();} catch (Exception e) {e.printStackTrace();}
+			}
+			return check;
+		}
 }
