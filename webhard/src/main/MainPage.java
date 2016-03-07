@@ -38,7 +38,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
 
 import login.login;
@@ -52,7 +51,6 @@ import webhard.dto.FileDto;
 import webhard.dto.FolderDto;
 import webhard.dto.ItemDto;
 import webhard.dto.UserDto;
-import FTP.FTPUtil;
 
 import company.CompanyInsert;
 import company.CompanyList;
@@ -61,13 +59,6 @@ import file.FileInsert;
 import file.Filedownload;
 import folder.FolderInsert;
 import folder.FolderUpdate;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.border.MatteBorder;
-import javax.swing.border.SoftBevelBorder;
 
 public class MainPage extends JFrame {
 
@@ -80,6 +71,8 @@ public class MainPage extends JFrame {
 	private FolderInsert folderInsert;
 	private FolderUpdate folderupdate;
 
+	private FileInsert flieI;
+	
 	private Button Logout;
 	private JTable table;
 	private JPanel panel_2;
@@ -261,18 +254,31 @@ public class MainPage extends JFrame {
 			JMenuItem flieinsert = new JMenuItem("파일 등록");
 			flieinsert.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if (parentNum != homeNum) {
-						if (parentNum != 0) {
-							selectNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-							FileInsert flieI = new FileInsert(parentNum, companyNum, id, MainPage.this);
-							Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-							flieI.setLocation((dim.width / 2) - (flieI.getWidth() / 2),
-									(dim.height / 2) - (flieI.getHeight() / 2));
-							flieI.setVisible(true);
-						} else {
-							JOptionPane.showMessageDialog(null, "폴더를 선택해주세요.");
+				
+					FolderDao dao = new FolderDao();
+					CompanyDao ComDao = new CompanyDao();
+					int UserCompNum = ComDao.selectCompanyNum(companyname);
+					int compNum = dao.selectCompanyNumByItemNum(parentNum);
+					if(parentNum != homeNum){
+					if (parentNum != 0) {
+						if(UserCompNum == compNum || id.equals("admin")){
+							if(flieI == null){
+								flieI = new FileInsert(parentNum,companyNum, id, MainPage.this);
+								selectNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+								Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+						flieI.setLocation((dim.width / 2) - (flieI.getWidth() / 2),
+								(dim.height / 2) - (flieI.getHeight() / 2));
+						flieI.setVisible(true);
+							}else{
+								JOptionPane.showMessageDialog(null, "이미 사용중인 서비스입니다..");
+							}
+						}else{
+							JOptionPane.showMessageDialog(null, "등록 할 수 없는 회사입니다.");
 						}
 					} else {
+						JOptionPane.showMessageDialog(null, "폴더를 선택해주세요.");
+					}
+					}else{
 						JOptionPane.showMessageDialog(null, "HOME에서는 사용 할 수 없습니다.");
 					}
 				}
@@ -285,14 +291,26 @@ public class MainPage extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-
+					
+					FolderDao dao = new FolderDao();
+					CompanyDao ComDao = new CompanyDao();
+					int UserCompNum = ComDao.selectCompanyNum(companyname);
+					int compNum = dao.selectCompanyNumByItemNum(parentNum);
+					
+					if(parentNum != homeNum){
 					if (parentNum != 0) {
+						if(UserCompNum == compNum || id.equals("admin")){
 						deleteFolder(parentNum);
 						tree.updateUI();
+						}else{
+							JOptionPane.showMessageDialog(null, "삭제 할 수 없는 회사입니다.");
+						}
 					} else {
 						JOptionPane.showMessageDialog(null, "파일을 선택해주세요.");
 					}
-
+					}else{
+						JOptionPane.showMessageDialog(null, "HOME에서는 사용 할 수 없습니다.");
+					}
 				}
 			});
 			file.add(filedelete);
@@ -1023,12 +1041,26 @@ public class MainPage extends JFrame {
 		return CompList;
 	}
 
+	public FileInsert openFileInsert(FileInsert values){
+		
+		flieI = values;
+		
+		return flieI;
+	}
+	
+	@SuppressWarnings("serial")
 	public class CustomTreeCellRenderer extends DefaultTreeCellRenderer {
+		
 		Icon folderIcon = new ImageIcon("Folder.png");
 		Icon closedIcon = new ImageIcon("Folder.png");
 		Icon openIcon = new ImageIcon("Open Folder.png");
 		Icon fileIcon = new ImageIcon("Files.png");
-
+		Icon zipIcon = new ImageIcon("ZIP.png");
+		Icon mp3Icon = new ImageIcon("MP3.png");
+		Icon ExcelIcon = new ImageIcon("MS Excel.png");
+		Icon PowerPointIcon = new ImageIcon("MS PowerPoint.png");
+		Icon TextIcon = new ImageIcon("Text Box.png");
+		
 		public CustomTreeCellRenderer() {
 			// TODO Auto-generated constructor stub
 		}

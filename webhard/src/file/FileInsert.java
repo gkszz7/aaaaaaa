@@ -7,6 +7,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.BufferedWriter;
 import java.io.File;
 
@@ -107,7 +109,51 @@ public class FileInsert extends JDialog {
 				panel.add(lblNewLabel_1);
 			}
 			
-			
+			this.addWindowListener(new WindowListener() {
+				
+				@Override
+				public void windowOpened(WindowEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void windowIconified(WindowEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void windowDeiconified(WindowEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void windowDeactivated(WindowEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void windowClosing(WindowEvent arg0) {
+					FileInsert fileInser = null;
+					mainpage.openFileInsert(fileInser);
+					dispose();
+				}
+				
+				@Override
+				public void windowClosed(WindowEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void windowActivated(WindowEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -137,6 +183,10 @@ public class FileInsert extends JDialog {
 						mainpage.addNewFile(dto);
 						
 						JOptionPane.showMessageDialog(null, "파일이 등록되었습니다.");
+						
+						FileInsert fileInser = null;
+						mainpage.openFileInsert(fileInser);
+						
 						setVisible(false);
 					}
 				});
@@ -152,6 +202,9 @@ public class FileInsert extends JDialog {
 						if ((JOptionPane
 								.showConfirmDialog(cancelBtn, "취소하시겠습니까??",
 										"종료확인", JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION) {
+							
+							FileInsert fileInser = null;
+							mainpage.openFileInsert(fileInser);
 							dispose();
 						}
 					}
