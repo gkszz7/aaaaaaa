@@ -70,16 +70,16 @@ import javax.swing.border.MatteBorder;
 import javax.swing.border.SoftBevelBorder;
 
 public class MainPage extends JFrame {
-
+	
 	private AccessList Al;
 	private UserList ul;
-
+	
 	private CompanyList CompList;
 	private CompanyInsert ci;
-
+	
 	private FolderInsert folderInsert;
 	private FolderUpdate folderupdate;
-
+	
 	private Button Logout;
 	private JTable table;
 	private JPanel panel_2;
@@ -93,6 +93,7 @@ public class MainPage extends JFrame {
 	int parentNum = 0;
 	int homeNum = 0;
 	int companyNum = 0;
+	int deleteComNum = 0;
 	private UserDto uDto;
 	private DefaultMutableTreeNode selectNode;
 
@@ -145,10 +146,10 @@ public class MainPage extends JFrame {
 					CompanyDao ComDao = new CompanyDao();
 					FolderDao folDao = new FolderDao();
 					int UserCompNum = ComDao.selectCompanyNum(companyname);
-					int compNum = folDao.selectcompanyNum(parentNum);
+					int compNum = folDao.selectCompanyNumByItemNum(parentNum);
 					
 					if(folderInsert == null){	
-						if(parentNum != 140){
+						if(parentNum != homeNum){
 							if(UserCompNum == compNum || id.equals("admin")){
 						if (parentNum != 0) {
 							selectNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
@@ -163,10 +164,10 @@ public class MainPage extends JFrame {
 							JOptionPane.showMessageDialog(null, "폴더를 선택해주세요.");
 						}
 							}else{
-								JOptionPane.showMessageDialog(null, "등록할수없는 회사입니다.");
+								JOptionPane.showMessageDialog(null, "등록 할 수없는 회사입니다.");
 							}
 						}else{
-							JOptionPane.showMessageDialog(null, "Home에서는 폴더 생성을 할수없습니다.");
+							JOptionPane.showMessageDialog(null, "HOME에서는 사용 할 수 없습니다.");
 						}
 					}else{
 						JOptionPane.showMessageDialog(null,"이미 사용중인 서비스입니다.");
@@ -185,10 +186,8 @@ public class MainPage extends JFrame {
 					CompanyDao ComDao = new CompanyDao();
 					FolderDao folDao = new FolderDao();
 					int UserCompNum = ComDao.selectCompanyNum(companyname);
-					int compNum = folDao.selectcompanyNum(parentNum);
-					
+					int compNum = folDao.selectCompanyNumByItemNum(parentNum);
 					int selectParent = folDao.parentHomeNum(parentNum);
-					
 					if(folderupdate == null){
 						if (parentNum != 0) {
 						if(selectParent != homeNum){
@@ -201,13 +200,13 @@ public class MainPage extends JFrame {
 							folderupdate.setVisible(true);
 								
 						} else {
-							JOptionPane.showMessageDialog(null, "수정할수없는 폴더입니다.");
+							JOptionPane.showMessageDialog(null, "수정 할 수없는 폴더입니다.");
 						}
 						}else{
-							JOptionPane.showMessageDialog(null, "수정할수없는 폴더입니다.");
+							JOptionPane.showMessageDialog(null, "수정 할 수없는 폴더입니다.");
 						}
 						}else{
-							JOptionPane.showMessageDialog(null, "수정할수없는 폴더입니다.");
+							JOptionPane.showMessageDialog(null, "수정 할 수없는 폴더입니다.");
 						}
 						}else{
 							JOptionPane.showMessageDialog(null, "폴더를 선택해주세요.");
@@ -215,24 +214,25 @@ public class MainPage extends JFrame {
 					}else{
 						JOptionPane.showMessageDialog(null,"이미 사용중인 서비스입니다.");
 					}
-				}			
+				}
 			});
 			forder.add(update);
 
 			delete = new JMenuItem("폴더 삭제");
 			delete.addActionListener(new ActionListener() {
-				
+
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
 					FolderDao dao = new FolderDao();
 					CompanyDao ComDao = new CompanyDao();
 					int UserCompNum = ComDao.selectCompanyNum(companyname);
-					int compNum = dao.selectcompanyNum(parentNum);
+					int compNum = dao.selectCompanyNumByItemNum(parentNum);
 					int selectParent = dao.parentHomeNum(parentNum);
-					
+					System.out.println(selectParent);
+					System.out.println(parentNum);
 					if(parentNum == homeNum){
-						JOptionPane.showMessageDialog(null, "Home폴더는 삭제하실 수 없습니다.");
+						JOptionPane.showMessageDialog(null, "HOME에서는 사용 할 수 없습니다.");
 					}else{
 						if (parentNum != 0) {
 							if(selectParent != homeNum ){
@@ -241,16 +241,15 @@ public class MainPage extends JFrame {
 							deleteFolder(parentNum);
 							tree.updateUI();
 							}else{
-								JOptionPane.showMessageDialog(null, "삭제할수없는 폴더업니다.");
+								JOptionPane.showMessageDialog(null, "삭제 할 수없는 폴더입니다.");
 							}
 						} else {
-							JOptionPane.showMessageDialog(null, "삭제할수없는 폴더업니다.");
+							JOptionPane.showMessageDialog(null, "삭제 할 수없는 폴더입니다.");
 						}	
 						}else{
 							JOptionPane.showMessageDialog(null, "폴더를 선택해주세요.");
 						}
 					}
-					
 
 				}
 			});
@@ -262,7 +261,7 @@ public class MainPage extends JFrame {
 			JMenuItem flieinsert = new JMenuItem("파일 등록");
 			flieinsert.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if(parentNum != 140){	
+					if(parentNum != homeNum){	
 					if (parentNum != 0) {
 						selectNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
 						FileInsert flieI = new FileInsert(parentNum,companyNum, id, MainPage.this);
@@ -274,7 +273,7 @@ public class MainPage extends JFrame {
 						JOptionPane.showMessageDialog(null, "폴더를 선택해주세요.");
 					}
 					}else{
-						JOptionPane.showMessageDialog(null, "Home폴더에는 추가 하실수없습니다.");
+						JOptionPane.showMessageDialog(null, "HOME에서는 사용 할 수 없습니다.");
 					}
 				}
 			});
@@ -286,7 +285,7 @@ public class MainPage extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					
+
 					if (parentNum != 0) {
 						deleteFolder(parentNum);
 						tree.updateUI();
@@ -581,7 +580,7 @@ public class MainPage extends JFrame {
 								// //////////////////////////////////
 								if (parentNode != null)
 									pobj = parentNode.getUserObject();
-								if(parentNum != 140){
+								if(parentNum != homeNum){
 								if(filecheck == true && foldercheck == false){
 									if (((e.getModifiers() & InputEvent.BUTTON3_MASK) != 0)
 											&& (tree.getSelectionCount() > 0)) {
@@ -590,11 +589,11 @@ public class MainPage extends JFrame {
 								}else if(filecheck == false && foldercheck == true){
 									if (((e.getModifiers() & InputEvent.BUTTON3_MASK) != 0)
 											&& (tree.getSelectionCount() > 0)) {
-										showfolderMenu(e.getX(), e.getY(),companyname ,id);
+										showfolderMenu(e.getX(), e.getY(),companyname,id);
 									}
 								}
 								}else{
-									JOptionPane.showMessageDialog(null,"Home폴더는 사용하실수 없습니다.");
+									JOptionPane.showMessageDialog(null,"HOME에서는 사용 할 수 없습니다.");
 								}
 								
 							}
@@ -658,7 +657,8 @@ public class MainPage extends JFrame {
 	}
 
 	public void deleteFolder(int itemNum) {
-
+		
+		
 		ArrayList<Integer> childs = new ArrayList<Integer>();
 		FolderDao dao = new FolderDao();
 		childs = (ArrayList<Integer>) dao.itemNumByParentNum(itemNum);
@@ -683,7 +683,7 @@ public class MainPage extends JFrame {
 			dao.deleteFolder(parentNum);
 
 		}
-
+		
 		selectNode.removeAllChildren();
 		selectNode.removeFromParent();
 	}
@@ -737,7 +737,7 @@ public class MainPage extends JFrame {
 		table.updateUI();
 	}
 
-	protected void showfolderMenu(int x, int y,final String companyname,final String id) {
+	protected void showfolderMenu(int x, int y,final String companyname ,final String id) {
 		JPopupMenu popup = new JPopupMenu();
 		JMenuItem mi = new JMenuItem("폴더 추가");
 		popup.add(mi);
@@ -755,7 +755,7 @@ public class MainPage extends JFrame {
 		popup.add(mi);
 		mi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				modifySelectedNode(companyname, id);
+				modifySelectedNode(companyname,id);
 			}
 		});
 		mi = new JMenuItem("폴더 삭제");
@@ -765,7 +765,7 @@ public class MainPage extends JFrame {
 		popup.add(mi);
 		mi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				deleteSelectedItems(companyname, id);
+				deleteSelectedItems(companyname,id);
 			}
 		});
 		popup.show(tree, x, y);
@@ -809,7 +809,7 @@ public class MainPage extends JFrame {
 		CompanyDao ComDao = new CompanyDao();
 		FolderDao folDao = new FolderDao();
 		int UserCompNum = ComDao.selectCompanyNum(companyname);
-		int compNum = folDao.selectcompanyNum(parentNum);
+		int compNum = folDao.selectCompanyNumByItemNum(parentNum);
 		
 		int selectParent = folDao.parentHomeNum(parentNum);
 		
@@ -861,15 +861,15 @@ public class MainPage extends JFrame {
 		} else {
 			JOptionPane.showMessageDialog(null, "폴더를 선택해주세요.");
 		}
-	} 
+	}
 
 	// 폴더 삭제
 	protected void deleteSelectedItems(String companyname,String id) {
-		     
+		
 		FolderDao dao = new FolderDao();
 		CompanyDao ComDao = new CompanyDao();
 		int UserCompNum = ComDao.selectCompanyNum(companyname);
-		int compNum = dao.selectcompanyNum(parentNum);
+		int compNum = dao.selectCompanyNumByItemNum(parentNum);
 		int selectParent = dao.parentHomeNum(parentNum);
 		
 		if(parentNum == homeNum){
@@ -926,13 +926,50 @@ public class MainPage extends JFrame {
 
 	}
 
-	public void deleteCompanyFolder(int comNum) {
-		FolderDao dao = new FolderDao();
-		ItemDto itemdto = dao.printFolderbyCompanyNum(comNum);
-		selectNode = new DefaultMutableTreeNode(itemdto);
-		deleteFolder(comNum);
+	public void deleteCompanyFolder(int itemNum, String name) {
+		DefaultMutableTreeNode node = null;
+		deleteComNum = itemNum;
+		for(int i = 0; i<home.getChildCount(); i++){
+			if(home.getChildAt(i).toString().equals(name)){
+				node = (DefaultMutableTreeNode) home.getChildAt(i);			
+				selectNode = node;
+				deleteCompanyFolder(itemNum);
+			}
+		}		
+		
 		tree.updateUI();
 
+	}
+	public void deleteCompanyFolder(int itemNum) {
+		
+		
+		ArrayList<Integer> childs = new ArrayList<Integer>();
+		FolderDao dao = new FolderDao();
+		childs = (ArrayList<Integer>) dao.itemNumByParentNum(itemNum);
+
+		for (int i = 0; i < childs.size(); i++) {
+			int child = childs.get(i);
+			ArrayList<Integer> grandChilds = (ArrayList<Integer>) dao
+					.itemNumByParentNum(child);
+			if (grandChilds.size() != 0) {
+				for (int j = 0; j < grandChilds.size(); j++) {
+					deleteCompanyFolder(child);
+					if (((ArrayList<Integer>) dao.itemNumByParentNum(child))
+							.size() == 0) {
+						dao.deleteFolder(child);
+					}
+				}
+			} else {
+				dao.deleteFolder(child);
+			}
+		}
+		if (((ArrayList<Integer>) dao.itemNumByParentNum(deleteComNum)).size() == 0) {
+			dao.deleteFolder(deleteComNum);
+
+		}
+		
+		selectNode.removeAllChildren();
+		selectNode.removeFromParent();
 	}
 
 	public void addNewFolder(FolderDto newFolder) {
@@ -953,50 +990,50 @@ public class MainPage extends JFrame {
 		selectNode.add(childNode);
 		tree.updateUI();
 	}
-
-	// 창 한번만 뜨게 만들기
-	public FolderInsert openFolderInsert(FolderInsert values) {
-
+	
+	//창 한번만 뜨게 만들기
+	public FolderInsert openFolderInsert(FolderInsert values){
+		
 		folderInsert = values;
-
+		
 		return folderInsert;
 	}
-
-	public FolderUpdate openFolderUpdate(FolderUpdate values) {
-
+	
+	public FolderUpdate openFolderUpdate(FolderUpdate values){
+		
 		folderupdate = values;
-
+		
 		return folderupdate;
 	}
-
-	public AccessList openAccessList(AccessList values) {
-
+	
+	public AccessList openAccessList(AccessList values){
+		
 		Al = values;
-
+		
 		return Al;
 	}
-
-	public UserList openUserList(UserList values) {
-
+	
+	public UserList openUserList(UserList values){
+		
 		ul = values;
-
+		
 		return ul;
 	}
-
-	public CompanyInsert openCompanyInsert(CompanyInsert values) {
-
+	
+	public CompanyInsert openCompanyInsert(CompanyInsert values){
+		
 		ci = values;
-
+		
 		return ci;
 	}
 
-	public CompanyList openCompanyList(CompanyList values) {
-
+	public CompanyList openCompanyList(CompanyList values){
+		
 		CompList = values;
-
+		
 		return CompList;
 	}
-
+	
 	public class CustomTreeCellRenderer extends DefaultTreeCellRenderer {
 		Icon folderIcon = new ImageIcon("Folder.png");
 		Icon closedIcon = new ImageIcon("Folder.png");

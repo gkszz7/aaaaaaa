@@ -16,10 +16,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
-
+import webhard.dto.CompanyDto;
 import webhard.dao.CompanyDao;
 import webhard.dao.UserDao;
-import webhard.dto.CompanyDto;
 
 public class UserInsert extends JDialog {
 	private JTextField IdText;

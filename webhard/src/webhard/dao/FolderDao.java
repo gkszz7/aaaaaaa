@@ -484,7 +484,59 @@ public class FolderDao {
         
         return item;
 	}
-	//폴더 확인
+	//선택 된 폴더나 파일의 회사 번호 알아오기
+	public int selectCompanyNumByItemNum(int parentNum){
+			
+			Connection con = null;
+	        PreparedStatement ps = null;
+	        ResultSet rs = null;
+	        int companyNum = 0;
+	        try {
+				con=connection.conn();
+				String sql="select companynum from item where itemnum=?";
+				ps = con.prepareStatement(sql);
+				ps.setInt(1, parentNum);
+				rs=ps.executeQuery();
+				if(rs.next()){
+					 companyNum=rs.getInt(1);
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}finally{
+				try {rs.close();} catch (Exception e) {e.printStackTrace();}
+				try {ps.close();} catch (Exception e) {e.printStackTrace();}
+				try {con.close();} catch (Exception e) {e.printStackTrace();}
+			}
+			
+			return  companyNum;
+		}
+	public int parentHomeNum(int itemNum){
+			
+			Connection con = null;
+	        PreparedStatement ps = null;
+	        ResultSet rs = null;
+	        int companyNum = 0;
+	        try {
+				con=connection.conn();
+				String sql="select parentnum from item where itemnum=?";
+				ps = con.prepareStatement(sql);
+				ps.setInt(1, itemNum);
+				rs=ps.executeQuery();
+				if(rs.next()){
+					 companyNum=rs.getInt(1);
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}finally{
+				try {rs.close();} catch (Exception e) {e.printStackTrace();}
+				try {ps.close();} catch (Exception e) {e.printStackTrace();}
+				try {con.close();} catch (Exception e) {e.printStackTrace();}
+			}
+			
+			return companyNum;
+	}
 	public boolean checkFolder(int ItemNum){
 		Connection con = null;
         PreparedStatement ps = null;
@@ -510,58 +562,5 @@ public class FolderDao {
 			try {con.close();} catch (Exception e) {e.printStackTrace();}
 		}
 		return check;
-	}
-	//선택 된 폴더나 파일의 회사 번호 알아오기
-	public int selectcompanyNum(int parentNum){
-		
-		Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        int companyNum = 0;
-        try {
-			con=connection.conn();
-			String sql="select companynum from item where itemnum=?";
-			ps = con.prepareStatement(sql);
-			ps.setInt(1, parentNum);
-			rs=ps.executeQuery();
-			if(rs.next()){
-				 companyNum=rs.getInt(1);
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}finally{
-			try {rs.close();} catch (Exception e) {e.printStackTrace();}
-			try {ps.close();} catch (Exception e) {e.printStackTrace();}
-			try {con.close();} catch (Exception e) {e.printStackTrace();}
-		}
-		
-		return  companyNum;
-	}
-public int parentHomeNum(int itemNum){
-		
-		Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        int companyNum = 0;
-        try {
-			con=connection.conn();
-			String sql="select parentnum from item where itemnum=?";
-			ps = con.prepareStatement(sql);
-			ps.setInt(1, itemNum);
-			rs=ps.executeQuery();
-			if(rs.next()){
-				 companyNum=rs.getInt(1);
-			} 
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}finally{
-			try {rs.close();} catch (Exception e) {e.printStackTrace();}
-			try {ps.close();} catch (Exception e) {e.printStackTrace();}
-			try {con.close();} catch (Exception e) {e.printStackTrace();}
-		}
-		
-		return  companyNum;
 	}
 }

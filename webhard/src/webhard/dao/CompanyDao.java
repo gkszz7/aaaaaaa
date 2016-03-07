@@ -225,15 +225,21 @@ public class CompanyDao {
         ArrayList<CompanyDto> companys = new ArrayList<CompanyDto>();
         int index = companyName.indexOf("*");
         String name =null;
-        if(companyName.endsWith("*")){
-        	name = companyName.substring(0, index);
-        	search = name+"%";
+        
+        if(companyName.endsWith("*") && companyName.startsWith("*")){
+        	name = companyName.replace("*", "");
+        	search = "%"+name+"%";
+        	System.out.println(search);
         }else if(companyName.startsWith("*")){
         	name = companyName.substring(index+1);
         	search = "%"+name;
+        }else if(companyName.endsWith("*")){
+        	name = companyName.substring(0, index);
+        	search = name+"%";
         }else if(companyName.contains("*") == false){
-        	search = "%"+companyName+"%";
+        	search = companyName;
         }
+        
         try {
 			con=connection.conn();
 			String sql="select companyNum, companyName, companyAddr, companyPhone, company_Creation_Date"
@@ -276,14 +282,18 @@ public class CompanyDao {
         int index = companyAddr.indexOf("*");
         String search=null;
         String name =null;
-        if(companyAddr.endsWith("*")){
-        	name = companyAddr.substring(0, index);
-        	search = name+"%";
+        if(companyAddr.endsWith("*") && companyAddr.startsWith("*")){
+        	name = companyAddr.replace("*", "");
+        	search = "%"+name+"%";
+        	System.out.println(search);
         }else if(companyAddr.startsWith("*")){
         	name = companyAddr.substring(index+1);
         	search = "%"+name;
+        }else if(companyAddr.endsWith("*")){
+        	name = companyAddr.substring(0, index);
+        	search = name+"%";
         }else if(companyAddr.contains("*") == false){
-        	search = "%"+companyAddr+"%";
+        	search = companyAddr;
         }
         try {
 			con=connection.conn();
@@ -327,14 +337,18 @@ public class CompanyDao {
         int index = companyPhone.indexOf("*");
         String search=null;
         String name =null;
-        if(companyPhone.endsWith("*")){
-        	name = companyPhone.substring(0, index);
-        	search = name+"%";
+        if(companyPhone.endsWith("*") && companyPhone.startsWith("*")){
+        	name = companyPhone.replace("*", "");
+        	search = "%"+name+"%";
+        	System.out.println(search);
         }else if(companyPhone.startsWith("*")){
         	name = companyPhone.substring(index+1);
         	search = "%"+name;
+        }else if(companyPhone.endsWith("*")){
+        	name = companyPhone.substring(0, index);
+        	search = name+"%";
         }else if(companyPhone.contains("*") == false){
-        	search = "%"+companyPhone+"%";
+        	search = companyPhone;
         }
         try {
 			con=connection.conn();
