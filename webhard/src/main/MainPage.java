@@ -186,12 +186,14 @@ public class MainPage extends JFrame {
 					FolderDao folDao = new FolderDao();
 					int UserCompNum = ComDao.selectCompanyNum(companyname);
 					int compNum = folDao.selectcompanyNum(parentNum);
+					
 					int selectParent = folDao.parentHoemNum(parentNum);
+					
 					if(folderupdate == null){
 						if (parentNum != 0) {
-						if(selectParent != 140){
+						if(selectParent != homeNum){
 						if(UserCompNum == compNum || id.equals("admin")){
-						if(parentNum != 140){
+						if(parentNum != homeNum){
 							folderupdate = new FolderUpdate(parentNum,MainPage.this, companyNum, id);
 							Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 							folderupdate.setLocation((dim.width / 2) - (folderupdate.getWidth() / 2),
@@ -228,13 +230,12 @@ public class MainPage extends JFrame {
 					int UserCompNum = ComDao.selectCompanyNum(companyname);
 					int compNum = dao.selectcompanyNum(parentNum);
 					int selectParent = dao.parentHoemNum(parentNum);
-					System.out.println(selectParent);
-					System.out.println(parentNum);
-					if(parentNum == 140){
+					
+					if(parentNum == homeNum){
 						JOptionPane.showMessageDialog(null, "Home폴더는 삭제하실 수 없습니다.");
 					}else{
 						if (parentNum != 0) {
-							if(selectParent != 140 ){
+							if(selectParent != homeNum ){
 								if(UserCompNum == compNum || id.equals("admin")){
 							selectNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
 							deleteFolder(parentNum);

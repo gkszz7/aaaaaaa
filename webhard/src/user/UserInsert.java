@@ -209,7 +209,7 @@ public class UserInsert extends JDialog {
 					PwField.setText("");
 					pwaccess.setText("");
 				}
-			}
+			}  
 		});
 		btnNewButton.setBounds(275, 122, 121, 23);
 		panel_2.add(btnNewButton);
