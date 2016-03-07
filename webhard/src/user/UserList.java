@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,20 +47,21 @@ public class UserList extends JDialog {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		try {
+		/*try {
 			UserList dialog = new UserList();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 
 	/**
 	 * Create the dialog.
+	 * @param mainPage 
 	 */
-	public UserList() {
+	public UserList(final MainPage mainPage) {
 
 		setTitle("사용자 정보");
 		setResizable(false);
@@ -90,7 +93,53 @@ public class UserList extends JDialog {
 		search.addItem("아이디");
 		search.addItem("전화번호");
 		panel_2.add(search);
-
+		
+		this.addWindowListener(new WindowListener() {
+			
+			@Override
+			public void windowOpened(WindowEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowIconified(WindowEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeiconified(WindowEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeactivated(WindowEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				UserList userList = null;
+				mainPage.openUserList(userList);
+				
+			}
+			
+			@Override
+			public void windowClosed(WindowEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowActivated(WindowEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		searchField = new JTextField();
 		searchField.addKeyListener(new KeyAdapter() {
 			@Override
@@ -206,7 +255,7 @@ public class UserList extends JDialog {
 					id = (table.getModel()
 							.getValueAt(table.getSelectedRow(), 0).toString());
 					if ((JOptionPane.showConfirmDialog(DeleteBtn,
-							"삭제 하시겠습니까??", "종료확인", JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION) {
+							"삭제 하시겠습니까??", "삭제확인", JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION) {
 						userdao.deleteUser(id);
 						users = userdao.selectAllUser();
 						listBySearch(users);

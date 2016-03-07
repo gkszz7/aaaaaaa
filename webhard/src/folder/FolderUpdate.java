@@ -7,6 +7,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -72,6 +74,9 @@ public class FolderUpdate extends JDialog {
 							setVisible(false);//make directory
 							
 							mainPage.updateFolder(dto);
+							FolderUpdate folderUpdate = null;
+							mainPage.openFolderUpdate(folderUpdate);
+							
 							
 						}
 						else{
@@ -90,6 +95,8 @@ public class FolderUpdate extends JDialog {
 						Object obj = e.getSource();
 		         		if((JOptionPane.showConfirmDialog(cancelButton, "취소하시겠습니까??","종료확인", JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION)
 		         	   {
+		         			FolderUpdate folderUpdate = null;
+							mainPage.openFolderUpdate(folderUpdate);
 		    				dispose();
 		         	   }
 					}
@@ -161,6 +168,51 @@ public class FolderUpdate extends JDialog {
 					panel_1.add(folderName);
 					folderName.setColumns(10);
 				}
+				this.addWindowListener(new WindowListener() {
+					
+					@Override
+					public void windowOpened(WindowEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void windowIconified(WindowEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void windowDeiconified(WindowEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void windowDeactivated(WindowEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void windowClosing(WindowEvent e) {
+						FolderUpdate folderUpdate = null;
+						mainPage.openFolderUpdate(folderUpdate);
+	    				dispose();
+					}
+					
+					@Override
+					public void windowClosed(WindowEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void windowActivated(WindowEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
 			}
 		}
 	}

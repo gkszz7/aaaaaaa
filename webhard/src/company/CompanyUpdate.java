@@ -123,19 +123,26 @@ public class CompanyUpdate extends JDialog {
 			JButton updateBtn = new JButton("\uC218\uC815");
 			updateBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					
 					CompanyDao Dao = new CompanyDao();
 					String CoName = CompName.getText();
 					String coAddr = compAddr.getText();
 					String Phone = compPhone.getText();
+					
 					List<CompanyDto> companys = new ArrayList<CompanyDto>();
 					
+					boolean check = Dao.checkCompanyName(CoName);
 					
-					Dao.updateCompany(compnum, CoName, coAddr, Phone);
-					companys = Dao.selectCompany();
-					JOptionPane.showMessageDialog(null,"수정되었습니다.");
-					comList.listBySearch(companys);
-					dispose();
-					
+					if(CoName.length()>0 && check == false){
+						Dao.updateCompany(compnum, CoName, coAddr, Phone);
+						companys = Dao.selectCompany();
+						JOptionPane.showMessageDialog(null,"수정되었습니다.");
+						comList.listBySearch(companys);
+						dispose();
+					}else{
+						JOptionPane.showMessageDialog(null,"등록 된 회사입니다.");
+						CompName.setText("");
+					}
 				}
 			});
 			panel_1.add(updateBtn);

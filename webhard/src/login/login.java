@@ -171,7 +171,12 @@ public class login extends JDialog {
 						int companynum = dao.selectcompany(id);
 						String companyName = dao.selectcompanyname(companynum);
 						String id2 = id;
-						JOptionPane.showMessageDialog(null, companyName+"회사로 로그인 되었습니다.");
+						if(!id2.equals("admin")){
+							JOptionPane.showMessageDialog(null, companyName+"회사로 로그인 되었습니다.");
+						}else{
+							JOptionPane.showMessageDialog(null, "관리자로 로그인하셨습니다.");
+						}
+						
 						dispose();
 						MainPage ma = new MainPage(name,companyName,id2, admin, access);
 						
