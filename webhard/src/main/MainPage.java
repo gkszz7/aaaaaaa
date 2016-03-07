@@ -164,10 +164,10 @@ public class MainPage extends JFrame {
 							JOptionPane.showMessageDialog(null, "폴더를 선택해주세요.");
 						}
 							}else{
-								JOptionPane.showMessageDialog(null, "등록할수없는 회사입니다.");
+								JOptionPane.showMessageDialog(null, "등록 할 수없는 회사입니다.");
 							}
 						}else{
-							JOptionPane.showMessageDialog(null, "Home에서는 폴더 생성을 할수없습니다.");
+							JOptionPane.showMessageDialog(null, "HOME에서는 사용 할 수 없습니다.");
 						}
 					}else{
 						JOptionPane.showMessageDialog(null,"이미 사용중인 서비스입니다.");
@@ -200,13 +200,13 @@ public class MainPage extends JFrame {
 							folderupdate.setVisible(true);
 								
 						} else {
-							JOptionPane.showMessageDialog(null, "수정할수없는 폴더입니다.");
+							JOptionPane.showMessageDialog(null, "수정 할 수없는 폴더입니다.");
 						}
 						}else{
-							JOptionPane.showMessageDialog(null, "수정할수없는 폴더입니다.");
+							JOptionPane.showMessageDialog(null, "수정 할 수없는 폴더입니다.");
 						}
 						}else{
-							JOptionPane.showMessageDialog(null, "수정할수없는 폴더입니다.");
+							JOptionPane.showMessageDialog(null, "수정 할 수없는 폴더입니다.");
 						}
 						}else{
 							JOptionPane.showMessageDialog(null, "폴더를 선택해주세요.");
@@ -232,7 +232,7 @@ public class MainPage extends JFrame {
 					System.out.println(selectParent);
 					System.out.println(parentNum);
 					if(parentNum == homeNum){
-						JOptionPane.showMessageDialog(null, "Home폴더는 삭제하실 수 없습니다.");
+						JOptionPane.showMessageDialog(null, "HOME에서는 사용 할 수 없습니다.");
 					}else{
 						if (parentNum != 0) {
 							if(selectParent != homeNum ){
@@ -241,10 +241,10 @@ public class MainPage extends JFrame {
 							deleteFolder(parentNum);
 							tree.updateUI();
 							}else{
-								JOptionPane.showMessageDialog(null, "삭제할수없는 폴더업니다.");
+								JOptionPane.showMessageDialog(null, "삭제 할 수없는 폴더입니다.");
 							}
 						} else {
-							JOptionPane.showMessageDialog(null, "삭제할수없는 폴더업니다.");
+							JOptionPane.showMessageDialog(null, "삭제 할 수없는 폴더입니다.");
 						}	
 						}else{
 							JOptionPane.showMessageDialog(null, "폴더를 선택해주세요.");
@@ -273,7 +273,7 @@ public class MainPage extends JFrame {
 						JOptionPane.showMessageDialog(null, "폴더를 선택해주세요.");
 					}
 					}else{
-						JOptionPane.showMessageDialog(null, "Home폴더에는 추가 하실수없습니다.");
+						JOptionPane.showMessageDialog(null, "HOME에서는 사용 할 수 없습니다.");
 					}
 				}
 			});
@@ -593,7 +593,7 @@ public class MainPage extends JFrame {
 									}
 								}
 								}else{
-									JOptionPane.showMessageDialog(null,"Home폴더는 사용하실수 없습니다.");
+									JOptionPane.showMessageDialog(null,"HOME에서는 사용 할 수 없습니다.");
 								}
 								
 							}
