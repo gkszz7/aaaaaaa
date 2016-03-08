@@ -13,6 +13,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -141,10 +143,15 @@ public class MainPage extends JFrame {
 					FolderDao folDao = new FolderDao();
 					int UserCompNum = ComDao.selectCompanyNum(companyname);
 					int compNum = folDao.selectCompanyNumByItemNum(parentNum);
-
+					
+					ItemDto selectItem = (ItemDto)selectNode.getUserObject();
+					int selectItemNum = selectItem.getItemNum();
+					boolean checkfolder = folDao.checkFolder(selectItemNum);
+					
 					if (folderInsert == null) {
 						if (parentNum != homeNum) {
 							if (UserCompNum == compNum || id.equals("admin")) {
+								if(checkfolder == true){
 								if (parentNum != 0) {
 									selectNode = getSelectedNode();
 									folderInsert = new FolderInsert(parentNum, id, companyNum, MainPage.this);
@@ -155,6 +162,9 @@ public class MainPage extends JFrame {
 									folderInsert.setVisible(true);
 
 								} else {
+									JOptionPane.showMessageDialog(null, "폴더를 선택해주세요.");
+								}
+								}else {
 									JOptionPane.showMessageDialog(null, "폴더를 선택해주세요.");
 								}
 							} else {
@@ -182,10 +192,15 @@ public class MainPage extends JFrame {
 					int UserCompNum = ComDao.selectCompanyNum(companyname);
 					int compNum = folDao.selectCompanyNumByItemNum(parentNum);
 					int selectParent = folDao.parentHomeNum(parentNum);
+					
+					ItemDto selectItem = (ItemDto)selectNode.getUserObject();
+					int selectItemNum = selectItem.getItemNum();
+					boolean checkfolder = folDao.checkFolder(selectItemNum);
 					if (folderupdate == null) {
 						if (parentNum != 0) {
 							if (selectParent != homeNum) {
 								if (UserCompNum == compNum || id.equals("admin")) {
+									if(checkfolder == true){
 									if (parentNum != homeNum) {
 										folderupdate = new FolderUpdate(parentNum, MainPage.this, companyNum, id);
 										Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -195,6 +210,9 @@ public class MainPage extends JFrame {
 
 									} else {
 										JOptionPane.showMessageDialog(null, "수정 할 수없는 폴더입니다.");
+									}
+									}else {
+										JOptionPane.showMessageDialog(null, "파일은 수정 할 수 없습니다.");
 									}
 								} else {
 									JOptionPane.showMessageDialog(null, "수정 할 수없는 폴더입니다.");
@@ -228,6 +246,7 @@ public class MainPage extends JFrame {
 					ItemDto selectItem = (ItemDto)selectNode.getUserObject();
 					int selectItemNum = selectItem.getItemNum();
 					boolean checkfolder = folderDao.checkFolder(selectItemNum);
+					
 					if (parentNum == homeNum) {
 						JOptionPane.showMessageDialog(null, "HOME에서는 사용 할 수 없습니다.");
 					} else {
@@ -270,9 +289,14 @@ public class MainPage extends JFrame {
 					CompanyDao ComDao = new CompanyDao();
 					int UserCompNum = ComDao.selectCompanyNum(companyname);
 					int compNum = dao.selectCompanyNumByItemNum(parentNum);
+					ItemDto selectItem = (ItemDto)selectNode.getUserObject();
+					int selectItemNum = selectItem.getItemNum();
+					boolean foldercheck = dao.checkFolder(selectItemNum);
+					
 					if (parentNum != homeNum) {
 						if (parentNum != 0) {
 							if (UserCompNum == compNum || id.equals("admin")) {
+								if(foldercheck == true){
 								if (flieI == null) {
 									selectNode = getSelectedNode();
 									flieI = new FileInsert(parentNum, companyNum, id, MainPage.this);
@@ -281,7 +305,10 @@ public class MainPage extends JFrame {
 											(dim.height / 2) - (flieI.getHeight() / 2));
 									flieI.setVisible(true);
 								} else {
-									JOptionPane.showMessageDialog(null, "이미 사용중인 서비스입니다..");
+									JOptionPane.showMessageDialog(null, "이미 사용중인 서비스입니다.");
+								}
+								}else {
+									JOptionPane.showMessageDialog(null, "폴더에만 등록이 가능합니다.");
 								}
 							} else {
 								JOptionPane.showMessageDialog(null, "등록 할 수 없습니다.");
@@ -605,34 +632,78 @@ public class MainPage extends JFrame {
 		if (access != 0) {
 			tree.addMouseListener(new MouseAdapter() {
 				@Override
-				public void mouseClicked(MouseEvent e) {
+				public void mouseClicked(MouseEvent e) {				
+					
+					UserDao dao = new UserDao();
+					CompanyDao cdao = new CompanyDao();
+					FolderDao folderDao = new FolderDao();
+					FileDao fileDao = new FileDao();
+					List<FolderDto> folders = new ArrayList<FolderDto>();
+					List<FileDto> fileList = new ArrayList<>();
+					
+					int compnum = dao.selectcompany(id);
 
-					if (DEBUG && tree.getSelectionCount() > 0) {
-
-						UserDao dao = new UserDao();
-						CompanyDao cdao = new CompanyDao();
-						int compnum = dao.selectcompany(id);
-
-						selectNode = getSelectedNode();
-						String compname = selectNode.getUserObject().toString();
+					selectNode = getSelectedNode();
+										
+					if (selectNode != null) {
 						ItemDto selectObtion = (ItemDto) selectNode.getUserObject();
-						int parentNum1 = selectObtion.getCompanyNum();
 						// int Home = selectObtion.getItemNum();
 						parentNum = selectObtion.getItemNum();
-						System.out.println(parentNum);
 						companyNum = selectObtion.getCompanyNum();
-
-						int selectpnum = cdao.selectCompanyNum(compname);
+						
+						int selectItemNum = selectObtion.getItemNum();
+						
+						boolean filecheckd = fileDao.checkfile(selectItemNum);
+						
+					if(filecheckd == true){
+						if(e.getClickCount() == 2){
+							try {
+								
+								FileDto dto = fileDao.selectFileByItemNum(selectItemNum);
+								String url = dto.getFileURL();
+							     File file = new File(url);
+							    
+							     
+							//MS Windows Only
+							     Process p= Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + 
+							     file.getAbsolutePath());
+							     
+							// or
+							     
+							//Process p= Runtime.getRuntime().exec("rundll32 SHELL32.DLL,ShellExec_RunDLL " + 
+							     
+							// file.getAbsolutePath());
+							    
+							     
+							//Apple Mac Only
+							     
+							//Process p= Runtime.getRuntime().exec("open " + file.getAbsolutePath());
+							    
+							     p.waitFor();
+							    
+							  } catch (InterruptedException ex) {
+							     ex.printStackTrace();
+							  } catch (IOException ex) {
+							     ex.printStackTrace();
+							  }
+							}
+					}
+					}
+					
+					if (DEBUG && tree.getSelectionCount() > 0) {
+						
+						
 						if (selectNode != null) {
-							if (compnum == selectpnum || id.equals("admin") || compnum == parentNum1
-									|| parentNum == homeNum) {
+							ItemDto selectObtion = (ItemDto) selectNode.getUserObject();
+							String compname = selectNode.getUserObject().toString();
+							
+							int selectpnum = cdao.selectCompanyNum(compname);
+							
+							int parentNum1 = selectObtion.getCompanyNum();
+							if (compnum == selectpnum || id.equals("admin") || compnum == parentNum1 || parentNum == homeNum) {
 								Object pobj = null;
 								DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode) selectNode.getParent();
 								// ///////////////////////////////
-								FolderDao folderDao = new FolderDao();
-								FileDao fileDao = new FileDao();
-								List<FolderDto> folders = new ArrayList<FolderDto>();
-								List<FileDto> fileList = new ArrayList<>();
 
 								folders = folderDao.printFolderInParentFolder(parentNum);
 
