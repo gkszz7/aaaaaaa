@@ -228,4 +228,32 @@ public class FileDao {
 			}
 			return check;
 		}
+		
+		public FileDto selectFileByItemNum(int ItemNum){
+			Connection con = null;
+	        PreparedStatement ps = null;
+	        ResultSet rs = null;
+	        FileDto dto = new FileDto();
+	        try {
+				con=connection.conn();
+				String sql="select * from file where itemNum=?";
+				ps = con.prepareStatement(sql);
+				ps.setInt(1, ItemNum);
+				rs = ps.executeQuery();
+				if(rs.next()){
+					dto.setItemNum(rs.getInt(1));
+					dto.setFileURL(rs.getString(2));
+					dto.setFileSize(rs.getString(3));
+					dto.setFileType(rs.getString(4));
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}finally{
+				try {rs.close();} catch (Exception e) {e.printStackTrace();}
+				try {ps.close();} catch (Exception e) {e.printStackTrace();}
+				try {con.close();} catch (Exception e) {e.printStackTrace();}
+			}
+			return dto;
+		}
 }

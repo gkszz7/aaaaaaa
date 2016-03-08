@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 
 import javax.swing.JButton;
@@ -16,6 +18,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
+
+import main.MainPage;
 
 import webhard.dto.FileDto;
 import webhard.dto.ItemDto;
@@ -51,7 +55,7 @@ public class Filedownload extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public Filedownload(final DefaultMutableTreeNode selectNode) {
+	public Filedownload(final DefaultMutableTreeNode selectNode,final MainPage mainpage) {
 		setResizable(false);
 		setBounds(100, 100, 601, 373);
 		getContentPane().setLayout(new BorderLayout(0, 0));
@@ -66,6 +70,51 @@ public class Filedownload extends JDialog {
 				panel.add(lblNewLabel);
 			}
 		}
+		this.addWindowListener(new WindowListener() {
+			
+			@Override
+			public void windowOpened(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowIconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				Filedownload filedownload = null;
+				
+			}
+			
+			@Override
+			public void windowClosed(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowActivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		{
 			JPanel panel = new JPanel();
 			panel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
