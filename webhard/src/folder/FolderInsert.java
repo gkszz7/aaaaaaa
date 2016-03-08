@@ -78,7 +78,6 @@ public class FolderInsert extends JDialog {
 						if(folderName.getText().length()>0){
 							String name = folderName.getText();
 							newFolder = dao.addNewFolder(name, itemNum, userId, companyNum);
-							
 							mainPage.addNewFolder(newFolder);
 							
 							JOptionPane.showMessageDialog(null,"폴더가 생성되었습니다.");							

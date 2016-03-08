@@ -23,6 +23,7 @@ public class FolderDao {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
+		String sql = null;
 		int num=0;
 		
 		FolderDto folderDto = new FolderDto();
@@ -34,13 +35,24 @@ public class FolderDao {
 
 		try {
 			con = connection.conn();
-			String sql = "insert into item (itemNum,name,item_creation_date,parentNum,userId,companyNum) "
-					+ "values (next value for itemNum, ?, current_date, ?,?,?)";
-			ps = con.prepareStatement(sql);
-			ps.setString(1, name);
-			ps.setInt(2, itemNum);
-			ps.setString(3, userId);
-			ps.setInt(4, companyNum);
+			if(companyNum == 0){
+				sql = "insert into item (itemNum,name,item_creation_date,parentNum,userId) "
+						+ "values (next value for itemNum, ?, current_date, ?,?)";
+				ps = con.prepareStatement(sql);
+				ps.setString(1, name);
+				ps.setInt(2, itemNum);
+				ps.setString(3, userId);
+			}else{
+				sql = "insert into item (itemNum,name,item_creation_date,parentNum,userId,companyNum) "
+						+ "values (next value for itemNum, ?, current_date, ?,?,?)";
+				ps = con.prepareStatement(sql);
+				ps.setString(1, name);
+				ps.setInt(2, itemNum);
+				ps.setString(3, userId);
+				ps.setInt(4, companyNum);
+			}
+			
+			
 			ps.executeUpdate();
 			ps.close();
 
@@ -78,6 +90,7 @@ public class FolderDao {
 		
 		return folderDto;
 	}
+	
 
 	/**
 	 * 회사 가입 후 바로 생성 되는 회사 폴더
@@ -190,7 +203,7 @@ public class FolderDao {
         try {
 			con = connection.conn();
 			String sql="select f.foldertype, f.step, i.itemNum, i.name, i.ITEM_CREATION_DATE, i.parentNum, i.userid, i.companyNum "
-					+ "from folder f, item i where i.itemNum = f.itemNum and i.itemNum = 140";
+					+ "from folder f, item i where i.itemNum = f.itemNum and i.itemNum = 78";
 			ps = con.prepareStatement(sql);
 			rs=ps.executeQuery();
 			
@@ -456,7 +469,7 @@ public class FolderDao {
         
         try {
 			con = connection.conn();
-			String sql="select * from item where companyNum= ? and parentNum = 140";
+			String sql="select * from item where companyNum= ? and parentNum = 78";
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, comNum);
 			rs=ps.executeQuery();
@@ -558,5 +571,40 @@ public class FolderDao {
 			try {con.close();} catch (Exception e) {e.printStackTrace();}
 		}
 		return check;
+	}
+	
+	public FolderDto printShareFolder() {
+		Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        FolderDto folder = new FolderDto();
+        
+        try {
+			con = connection.conn();
+			String sql="select f.foldertype, f.step, i.itemNum, i.name, i.ITEM_CREATION_DATE, i.parentNum, i.userid, i.companyNum"
+					+ " from folder f, item i where i.parentNum= 78 and f.foldertype = 1 and i.itemNum=f.itemNum";
+			ps = con.prepareStatement(sql);
+			rs=ps.executeQuery();
+			
+			if(rs.next()){
+				folder.setFolderType(rs.getInt(1));
+				folder.setStep(rs.getInt(2));
+				folder.setItemNum(rs.getInt(3));
+				folder.setName(rs.getString(4));
+				folder.setDate(rs.getString(5));
+				folder.setParentNum(rs.getInt(6));
+				folder.setUserId(rs.getString(7));
+				folder.setCompanyNum(rs.getInt(8));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			try {rs.close();} catch (Exception e) {e.printStackTrace();}
+			try {ps.close();} catch (Exception e) {e.printStackTrace();}
+			try {con.close();} catch (Exception e) {e.printStackTrace();}
+		}
+        
+        return folder;
 	}
 }
