@@ -648,17 +648,18 @@ public class MainPage extends JFrame {
 						boolean filecheckd = fileDao.checkfile(selectItemNum);
 						
 						if(filecheckd == true){
+							
 							if(e.getClickCount() == 2){
 								try {
 									
 									FileDto dto = fileDao.selectFileByItemNum(selectItemNum);
-									String url = dto.getFileURL();
-								     File file = new File(url);
-								    
-								     
+									String filename = dto.getName();
+									
+								    File file = new File("E:/test/"+filename);
+								    System.out.println(file);
+								    							     
 								//MS Windows Only
-								     Process p= Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + 
-								     file.getAbsolutePath());
+								     Process p= Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + file.getAbsolutePath());
 								     
 								// or
 								     
@@ -681,7 +682,6 @@ public class MainPage extends JFrame {
 								}
 						}
 					}
-					
 					if (DEBUG && tree.getSelectionCount() > 0) {
 						
 						

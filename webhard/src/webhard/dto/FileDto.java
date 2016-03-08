@@ -1,6 +1,7 @@
 package webhard.dto;
 
 public class FileDto extends ItemDto{
+	
 	private String fileURL;
 	private String fileSize;
 	private String fileType;
