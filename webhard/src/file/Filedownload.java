@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -34,7 +36,7 @@ public class Filedownload extends JDialog {
    private JButton cancelBtn;
    
    private String host = "192.168.1.6";
-   private String fileid = "user1";
+   private String id = "user1";
    private String password = "1234";
    private int port = 21;
    private String dir = "test/";
@@ -125,27 +127,28 @@ public class Filedownload extends JDialog {
             JButton btnNewButton = new JButton("다운로드");
             btnNewButton.addActionListener(new ActionListener() {
                public void actionPerformed(ActionEvent e) {
-                  
+            	  try {
                   ItemDto selectItem = (ItemDto) selectNode.getUserObject();
                   
                   if(selectItem instanceof FileDto)
                   {
-                     FileDto fileInfo = (FileDto) selectItem;
+                    FileDto fileInfo = (FileDto) selectItem;
                
-                     FTPUtil ftp = new FTPUtil();
-                     ftp.init(host, fileid, password, port);         
+                    FTPUtil ftp = new FTPUtil();
+                    ftp.init(host,id, password, port);         
                      
-                     int last1 = Path.lastIndexOf("\\");
+                    int last1 = Path.lastIndexOf("\\");
                      
-                     String fileName = Path.substring(last1+1,Path.length());
+                    String fileName = Path.substring(last1+1,Path.length());
                      
-                     int last =  fileInfo.getFileURL().lastIndexOf("\\");   
-                     
-                     String downloadName = fileInfo.getFileURL().substring(last+1,fileInfo.getFileURL().length());
-                     
-                     System.out.println(downloadName);
-                     
-                     ftp.download(dir, downloadName, Path+"."+fileInfo.getFileType());
+                    int last =  fileInfo.getFileURL().lastIndexOf("\\");   
+                    
+                    File outpath = new File(Path+"."+fileInfo.getFileType());
+                    
+                    String downloadName = fileInfo.getFileURL().substring(last+1,fileInfo.getFileURL().length());
+                                  
+					ftp.download(host, id, password, downloadName, outpath);					                   					
+					
                      ftp.disconnection();
                      JOptionPane.showMessageDialog(null, "파일이 다운되었습니다.");
                      setVisible(false);
@@ -154,6 +157,10 @@ public class Filedownload extends JDialog {
                   {
                      JOptionPane.showMessageDialog(null, "잘못 된 경로입니다.");
                   }
+             	}catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
                }
             });
             btnNewButton.setBounds(374, 10, 97, 23);

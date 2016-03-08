@@ -11,6 +11,8 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -166,7 +168,7 @@ public class FileInsert extends JDialog {
 				//엑세스가 거부 됨
 				InsertBtn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {						
-						
+						try {
 						FileDao dao = new FileDao();
 						FileDto dto = new FileDto();
 						
@@ -178,7 +180,8 @@ public class FileInsert extends JDialog {
 						
 						ftp.init(host, id, password, port);
 						
-						ftp.upload(dir, outpath);
+						ftp.upload(host, id, password, Name, outpath);
+						 
 						ftp.disconnection();
 						mainpage.addNewFile(dto);
 						
@@ -188,6 +191,10 @@ public class FileInsert extends JDialog {
 						mainpage.openFileInsert(fileInser);
 						
 						setVisible(false);
+					}catch (IOException e1) {
+						// TODO Auto-generated caytch block
+						e1.printStackTrace();
+					}
 					}
 				});
 				InsertBtn.setActionCommand("파일 등록");

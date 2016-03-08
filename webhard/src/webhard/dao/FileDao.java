@@ -236,15 +236,20 @@ public class FileDao {
 	        FileDto dto = new FileDto();
 	        try {
 				con=connection.conn();
-				String sql="select * from file where itemNum=?";
+				String sql="select f.fileURL, f.fileSize, f.fileType, i.itemNum, i.name, i.ITEM_CREATION_DATE, i.parentNum, i.userid, i.companyNum from file f, item i where i.itemNum= ? and i.itemNum=f.itemNum";
 				ps = con.prepareStatement(sql);
 				ps.setInt(1, ItemNum);
 				rs = ps.executeQuery();
 				if(rs.next()){
-					dto.setItemNum(rs.getInt(1));
-					dto.setFileURL(rs.getString(2));
-					dto.setFileSize(rs.getString(3));
-					dto.setFileType(rs.getString(4));
+					dto.setFileURL(rs.getString(1));
+					dto.setFileSize(rs.getString(2));
+					dto.setFileType(rs.getString(3));
+					dto.setItemNum(rs.getInt(4));
+					dto.setName(rs.getString(5));
+					dto.setDate(rs.getString(6));
+					dto.setParentNum(rs.getInt(7));
+					dto.setUserId(rs.getString(8));
+					dto.setCompanyNum(rs.getInt(9));
 				}
 				
 			} catch (Exception e) {
