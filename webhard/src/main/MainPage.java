@@ -36,6 +36,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeExpansionListener;
+import javax.swing.plaf.basic.BasicTreeUI;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
@@ -610,25 +611,7 @@ public class MainPage extends JFrame {
 		// Custom Tree Cell Renderer
 		tree.setCellRenderer(new CustomTreeCellRenderer());
 		tree.setEditable(true);
-
-		/**********************************************************/
-
-		tree.addTreeExpansionListener(new TreeExpansionListener() {
-			// 트리가 열렸을 때
-
-			@Override
-			public void treeExpanded(TreeExpansionEvent event) {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void treeCollapsed(TreeExpansionEvent event) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
-
+		
 		if (access != 0) {
 			tree.addMouseListener(new MouseAdapter() {
 				@Override
@@ -738,13 +721,32 @@ public class MainPage extends JFrame {
 					}
 				}
 			});
+		}else{
+			tree.disable();
 		}
 		panel_6.add(tree, BorderLayout.CENTER);
 
 		JPanel panel_7 = new JPanel();
 		panel_7.setBackground(Color.WHITE);
 		panel_6.add(panel_7, BorderLayout.WEST);
-
+		
+		/*************관련 없는 회사 폴더 안 펼쳐지게 함********************/
+		
+		if(id.equals("admin") ==false){
+			CompanyDao comDao = new CompanyDao();
+			int userCompNum = comDao.selectCompanyNum(companyname);
+			DefaultMutableTreeNode disableNode = null;
+			
+			for(int i = 0; i< home.getChildCount(); i++){
+				disableNode = (DefaultMutableTreeNode)home.getChildAt(i);
+				ItemDto item = (ItemDto)disableNode.getUserObject();
+				if(userCompNum != item.getCompanyNum()){
+					disableNode.setAllowsChildren(false);
+				}
+			}
+		
+		}
+		/**************************************************************/
 	}
 
 	public void setTree(DefaultMutableTreeNode cycle) {
@@ -773,7 +775,6 @@ public class MainPage extends JFrame {
 					DefaultMutableTreeNode grandChildNode = new DefaultMutableTreeNode(grandChildNodes.get(j));
 					home.add(childNode);
 					setTree(childNode);
-
 					break;
 				}
 
@@ -787,7 +788,6 @@ public class MainPage extends JFrame {
 
 		}
 		tree = new JTree(home);
-
 	}
 
 	public void deleteFolder(int itemNum) {
