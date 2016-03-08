@@ -173,7 +173,7 @@ public class FileInsert extends JDialog {
 						dto = dao.addNewFile(Name, parentNum, id, companyNum, Path, filesize, FileType);
 						
 						File outpath = new File(Path);
-						System.out.println(outpath);
+		
 						FTPUtil ftp = new FTPUtil();
 						
 						ftp.init(host, id, password, port);
