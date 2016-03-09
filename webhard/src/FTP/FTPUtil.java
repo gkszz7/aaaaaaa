@@ -83,7 +83,7 @@ public class FTPUtil {
 	         }
 
 	         sb.append(ftpServer);
-	         sb.append("/test");
+	         sb.append("/");
 	         sb.append(fileName);
 
 	         /*
@@ -166,7 +166,7 @@ public class FTPUtil {
 	         }
 
 	         sb.append(ftpServer);
-	         sb.append("/test");
+	         sb.append("/");
 	         sb.append(fileName);
 	         /*
 

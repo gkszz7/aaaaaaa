@@ -43,6 +43,8 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
+import FTP.FTPUtil;
+
 import login.login;
 import user.AccessList;
 import user.UserList;
@@ -651,12 +653,13 @@ public class MainPage extends JFrame {
 							
 							if(e.getClickCount() == 2){
 								try {
-									
+																															
 									FileDto dto = fileDao.selectFileByItemNum(selectItemNum);
 									String filename = dto.getName();
 									
-								    File file = new File("E:/test/"+filename);
-								    System.out.println(file);
+						
+							         
+								    File file = new File("E:/test/"+filename);							   
 								    							     
 								//MS Windows Only
 								     Process p= Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + file.getAbsolutePath());
