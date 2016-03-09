@@ -171,7 +171,7 @@ public class Filedownload extends JDialog {
             cancelBtn.addActionListener(new ActionListener() {
                public void actionPerformed(ActionEvent e) {
                   if ((JOptionPane
-                        .showConfirmDialog(cancelBtn, "취소하시겠습니까??",
+                        .showConfirmDialog(null, "취소하시겠습니까??",
                               "종료확인", JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION) {
                      dispose();
                   }

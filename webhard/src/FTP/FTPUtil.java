@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.SocketException;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -211,6 +212,50 @@ public class FTPUtil {
 	      else{
 	         System.out.println( "Input not available" );
 	      }
+	   }
+	public void openFile( String ftpServer, String user, String password,String fileName) throws MalformedURLException,IOException{
+
+	      if (ftpServer != null && fileName != null)
+
+	      {
+	         StringBuffer sb = new StringBuffer("ftp://");
+
+	         // check for authentication else assume its anonymous access.
+
+	         if (user != null && password != null){
+
+	            sb.append( user );
+	            sb.append( ':' );
+	            sb.append( password );
+	            sb.append( '@' );
+	         }
+
+	         sb.append(ftpServer);
+	         sb.append("/test");
+	         sb.append(fileName);
+
+	         /*
+	          * type ==&gt; a=ASCII mode, i=image (binary) mode, d= file directory
+	          * listing
+	          */
+	         sb.append( ";type=i" );
+	         try{
+	        	 URI uri = new URI(sb.toString());
+	        	 System.out.println(uri);
+//	        	 URL url = new URL(sb.toString());
+//		         URLConnection urlc = url.openConnection();
+		         File file =  new File(uri);
+	        	 Process p= Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + file.getAbsolutePath());
+				    
+			     p.waitFor();
+	         }catch (InterruptedException ex) {
+			     ex.printStackTrace();
+	         }catch(Exception e){
+	        	 
+	         }
+	         
+	      }
+
 	   }
 	
 

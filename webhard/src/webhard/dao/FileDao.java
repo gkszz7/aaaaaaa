@@ -22,9 +22,9 @@ public class FileDao {
 		ResultSet rs = null;
 		int num = 0;
 		FileDto dto = new FileDto();
+		String sql = null;
 		
 		dto.setName(name);
-		dto.setItemNum(itemNum);
 		dto.setUserId(userId);
 		dto.setCompanyNum(companyNum);
 		dto.setFileURL(fileURL);
@@ -33,13 +33,23 @@ public class FileDao {
 		
 		try {
 			con = connection.conn();
-			String sql = "insert into item (itemNum,name,item_creation_date,parentNum,userId,companyNum) "
-					+ "values (next value for itemNum, ?, current_date, ?,?,?)";
-			ps = con.prepareStatement(sql);
-			ps.setString(1, name);
-			ps.setInt(2, itemNum);
-			ps.setString(3, userId);
-			ps.setInt(4, companyNum);
+			if(companyNum == 0){
+				sql = "insert into item (itemNum,name,item_creation_date,parentNum,userId) "
+						+ "values (next value for itemNum, ?, current_date, ?,?)";
+				ps = con.prepareStatement(sql);
+				ps.setString(1, name);
+				ps.setInt(2, itemNum);
+				ps.setString(3, userId);
+			}else{
+				sql = "insert into item (itemNum,name,item_creation_date,parentNum,userId,companyNum) "
+						+ "values (next value for itemNum, ?, current_date, ?,?,?)";
+				ps = con.prepareStatement(sql);
+				ps.setString(1, name);
+				ps.setInt(2, itemNum);
+				ps.setString(3, userId);
+				ps.setInt(4, companyNum);
+			}
+			
 			ps.executeUpdate();
 			ps.close();
 
@@ -49,6 +59,7 @@ public class FileDao {
 			if (rs.next()) {
 				num = rs.getInt(1);
 			}
+			dto.setItemNum(num);
 			rs.close();
 			ps.close();
 

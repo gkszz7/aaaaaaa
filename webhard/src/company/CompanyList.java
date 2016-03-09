@@ -105,7 +105,7 @@ public class CompanyList extends JDialog {
 					
 					if(table.getSelectedRowCount()>0){
 						String name = table.getModel().getValueAt(table.getSelectedRow(), 0).toString();
-						if((JOptionPane.showConfirmDialog(deleteBtn, "삭제 하시겠습니까??","종료확인", JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION){
+						if((JOptionPane.showConfirmDialog(null, "삭제 하시겠습니까??","종료확인", JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION){
 							FolderDao folDao = new FolderDao();
 							int comNum = comDao.selectCompanyNum(name);
 							ItemDto item = folDao.printFolderbyCompanyNum(comNum);

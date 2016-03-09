@@ -97,7 +97,7 @@ public class UserUpdate extends JDialog {
 			cancelBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
-					if((JOptionPane.showConfirmDialog(cancelBtn, "수정을 취소하시겠습니까??","취소", JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION)
+					if((JOptionPane.showConfirmDialog(null, "수정을 취소하시겠습니까??","취소", JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION)
 		         	   {
 		    				dispose();
 		         	   }

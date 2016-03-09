@@ -101,7 +101,7 @@ public class FolderInsert extends JDialog {
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						Object obj = e.getSource();
-		         		if((JOptionPane.showConfirmDialog(cancelButton, "취소하시겠습니까??","종료확인", JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION)
+		         		if((JOptionPane.showConfirmDialog(null, "취소하시겠습니까??","종료확인", JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION)
 		         	   {
 		         			FolderInsert folderInsert = null;
 							mainPage.openFolderInsert(folderInsert);

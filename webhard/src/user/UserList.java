@@ -254,7 +254,7 @@ public class UserList extends JDialog {
 
 					id = (table.getModel()
 							.getValueAt(table.getSelectedRow(), 0).toString());
-					if ((JOptionPane.showConfirmDialog(DeleteBtn,
+					if ((JOptionPane.showConfirmDialog(null,
 							"삭제 하시겠습니까??", "삭제확인", JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION) {
 						userdao.deleteUser(id);
 						users = userdao.selectAllUser();
