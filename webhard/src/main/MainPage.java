@@ -5,6 +5,7 @@ import java.awt.Button;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -650,32 +651,18 @@ public class MainPage extends JFrame {
 						boolean filecheckd = fileDao.checkfile(selectItemNum);
 						
 						if(filecheckd == true){
-							
+							//ÆÄÀÏ ¿ÀÇÂ
 							if(e.getClickCount() == 2){
 								try {
 																															
 									FileDto dto = fileDao.selectFileByItemNum(selectItemNum);
 									String filename = dto.getName();
-									
-						
-							         
+																				         
 								    File file = new File("E:/test/"+filename);							   
-								    							     
-								//MS Windows Only
-								     Process p= Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + file.getAbsolutePath());
+								    	     						
+								    Process p= Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + file.getAbsolutePath());								     
 								     
-								// or
-								     
-								//Process p= Runtime.getRuntime().exec("rundll32 SHELL32.DLL,ShellExec_RunDLL " + 
-								     
-								// file.getAbsolutePath());
-								    
-								     
-								//Apple Mac Only
-								     
-								//Process p= Runtime.getRuntime().exec("open " + file.getAbsolutePath());
-								    
-								     p.waitFor();
+								    p.waitFor();
 								    
 								  } catch (InterruptedException ex) {
 								     ex.printStackTrace();

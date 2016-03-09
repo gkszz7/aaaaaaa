@@ -102,8 +102,8 @@ public class FTPUtil {
 	            URLConnection urlc = url.openConnection();
 
 	            bos = new BufferedOutputStream(urlc.getOutputStream());
-	            bis = new BufferedInputStream(new FileInputStream( source ));
-
+	            bis = new BufferedInputStream(new FileInputStream(source));
+	            
 	            int i;
 
 	            // read byte by byte until end of stream
@@ -227,7 +227,7 @@ public class FTPUtil {
 			e.printStackTrace();
 		}
 	}
-
+	
 	/*
 	 * public static void main(String[] args) {
 	 * 
