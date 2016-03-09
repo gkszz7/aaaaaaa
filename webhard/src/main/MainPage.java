@@ -652,8 +652,8 @@ public class MainPage extends JFrame {
 						if (filecheckd == true) {
 
 							if (e.getClickCount() == 2) {
-								try {
 
+								try {													
 									FileDto dto = fileDao.selectFileByItemNum(selectItemNum);
 									String filename = dto.getName();
 

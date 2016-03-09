@@ -39,7 +39,7 @@ public class Filedownload extends JDialog {
    private String id = "user1";
    private String password = "1234";
    private int port = 21;
-   private String dir = "test/";
+
    
    /**
     * Launch the application.
