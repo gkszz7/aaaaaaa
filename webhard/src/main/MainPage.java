@@ -5,7 +5,6 @@ import java.awt.Button;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -16,6 +15,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,16 +36,12 @@ import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.TreeExpansionEvent;
-import javax.swing.event.TreeExpansionListener;
-import javax.swing.plaf.basic.BasicTreeUI;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
-import FTP.FTPUtil;
 import login.login;
 import user.AccessList;
 import user.UserList;
@@ -56,6 +53,7 @@ import webhard.dto.FileDto;
 import webhard.dto.FolderDto;
 import webhard.dto.ItemDto;
 import webhard.dto.UserDto;
+import FTP.FTPUtil;
 
 import company.CompanyInsert;
 import company.CompanyList;
@@ -89,6 +87,10 @@ public class MainPage extends JFrame {
 	private boolean DEBUG = true;
 	private JMenu falseUser, company, UserList;
 	private DefaultMutableTreeNode home;
+	private String host = "192.168.1.6";
+	private String ftpid = "user1";
+	private String password = "1234";
+	private int port = 21;
 	int parentNum = 0;
 	int homeNum = 0;
 	int companyNum = 0;
@@ -370,8 +372,10 @@ public class MainPage extends JFrame {
 								JOptionPane.showMessageDialog(null, "파일이 아닙니다.");
 							}
 						} else {
-							JOptionPane.showMessageDialog(null, "HOME에서는 사용 할 수 없습니다.");
+							JOptionPane.showMessageDialog(null, "파일을 선택해주세요.");
 						}
+					}else{
+						JOptionPane.showMessageDialog(null, "HOME에서는 사용 할 수 없습니다.");
 					}
 				}
 			});
@@ -621,7 +625,7 @@ public class MainPage extends JFrame {
 		panel_6.add(tree, BorderLayout.NORTH);
 		// Custom Tree Cell Renderer
 		tree.setCellRenderer(new CustomTreeCellRenderer());
-		tree.setEditable(true);
+		tree.setEditable(false);
 
 		if (access != 0) {
 			tree.addMouseListener(new MouseAdapter() {
@@ -648,29 +652,46 @@ public class MainPage extends JFrame {
 						int selectItemNum = selectObtion.getItemNum();
 
 						boolean filecheckd = fileDao.checkfile(selectItemNum);
-
+						
+						//더블 클릭
 						if (filecheckd == true) {
 
 							if (e.getClickCount() == 2) {
 
 								try {													
+									
 									FileDto dto = fileDao.selectFileByItemNum(selectItemNum);
+									//String destination = "C:/Users/CHUL/Desktop/test/";
 									String filename = dto.getName();
-
-									String host = "192.168.1.6";
-									String id = "user1";
-									String password = "1234";
-									int port = 21;
-									String fileName = selectObtion.getName();
+									String saveFileName = filename+"."+dto.getFileType();												
 									FTPUtil ftp = new FTPUtil();
-									ftp.init(host, id, password, port);
-									System.out.println("login");
-									ftp.openFile(host, id, password, fileName);
-									System.out.println("open");
-									// MS Windows Only
-
-								} catch (IOException ex) {
-									ex.printStackTrace();
+									//File saveFile = new File(destination+saveFileName);
+									
+									ftp.openFile("192.168.1.6", "user1", "1234", 21, filename);
+									/*
+									 * ftp.init(host, ftpid, password, port);
+									ftp.download(host, ftpid,password, filename, saveFile);
+									Runtime runtime = Runtime.getRuntime();
+									ftp.disconnection();								
+									
+								    File file = new File(destination+saveFileName);
+								    
+								    if(file != null){
+								     
+								    Process p = runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + file.getAbsolutePath());
+								    
+									p.waitFor();
+									
+								    }
+								    */
+								    
+								     
+								} catch (SecurityException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								} catch (IllegalArgumentException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
 								}
 							}
 						}
@@ -1278,7 +1299,7 @@ public class MainPage extends JFrame {
 					setIcon(textIcon);
 				} else if (fileType.equals("pptx")) {
 					setIcon(powerPointIcon);
-				} else if (fileType.equals("xls")) {
+				} else if (fileType.equals("xlsx")) {
 					setIcon(excelIcon);
 				} else if (fileType.equals("zip")) {
 					setIcon(zipIcon);

@@ -4,7 +4,7 @@ import java.util.Calendar;
 
 
 
-public class test1 {
+public class test {
 
 	/**
 	 * @param args

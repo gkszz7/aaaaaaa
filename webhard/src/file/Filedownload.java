@@ -146,7 +146,8 @@ public class Filedownload extends JDialog {
                     File outpath = new File(Path+"."+fileInfo.getFileType());
                     
                     String downloadName = fileInfo.getFileURL().substring(last+1,fileInfo.getFileURL().length());
-                                  
+                    System.out.println("downloadName"+downloadName);
+                    System.out.println("outpath"+outpath);
 					ftp.download(host, id, password, downloadName, outpath);					                   					
 					
                      ftp.disconnection();
